@@ -4,7 +4,7 @@
   "description": "Configuration for services",
   "main": "index.js",
   "scripts": {
-    "test": "ava ./tests --verbose"
+    "test": "ava ./tests/**/*.spec.js --verbose"
   },
   "keywords": [
     "configuration",

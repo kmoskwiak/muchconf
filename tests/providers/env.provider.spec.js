@@ -1,5 +1,5 @@
 const test = require('ava');
-const EnvProvider = require('../../../lib/providers/env.provider');
+const EnvProvider = require('../../lib/providers/env.provider');
 
 test.before((t) => {
     // Set ENV variables
