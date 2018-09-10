@@ -1,0 +1,19 @@
+{
+  "name": "muchconf",
+  "version": "1.0.0",
+  "description": "Configuration for services",
+  "main": "index.js",
+  "scripts": {
+    "test": "ava ./tests --verbose"
+  },
+  "keywords": [
+    "configuration",
+    "multi",
+    "conf"
+  ],
+  "author": "Kasper Moskwiak <kasper.moskwiak@gmail.com>",
+  "license": "ISC",
+  "devDependencies": {
+    "ava": "^0.25.0"
+  }
+}
