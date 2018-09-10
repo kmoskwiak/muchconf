@@ -1,0 +1,9 @@
+{
+    "mongo": {
+        "uri": "mongo://localhost",
+        "dbName": "data"
+    },
+    "active": true,
+    "appName": "testApp",
+    "number": 44
+}
