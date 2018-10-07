@@ -22,9 +22,6 @@ test('should fill object accoring to map', (t) => {
         return source[name];
     });
 
-    
-
-
     t.deepEqual(config, {
         a: 1,
         b: 2,
