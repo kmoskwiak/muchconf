@@ -1,4 +1,5 @@
 const test = require('ava');
+const UpdatingProvider = require('./mocks/updating-provider.mock');
 const {
     Store, 
     ArgvProvider,
@@ -15,7 +16,7 @@ test('should return always the same instance', async (t) => {
 
 test('should return different instances of store', async (t) => {
     const configStore_1 = new Store([]);
-    const configStore_2 = new Store([], Symbol());
+    const configStore_2 = new Store([], { instance: Symbol() });
 
     t.not(configStore_1.getSymbol(), configStore_2.getSymbol());
 });
@@ -28,7 +29,7 @@ test('should load configuration from json provider', async (t) => {
             p2: 2,
             p3: [1,2,3]
         })
-    ], Symbol());
+    ], { instance: Symbol() });
 
     let config = await configStore.load();
 
@@ -37,6 +38,25 @@ test('should load configuration from json provider', async (t) => {
         p1: 1,
         p2: 2,
         p3: [1,2,3]
+    });
+});
+
+test('should merge configuration form sources but not overwrite with null', async (t) => {
+    const configStore = new Store([
+        new JsonProvider({
+            a: 1,
+            b: 2
+        }),
+        new JsonProvider({
+            a: null
+        })
+    ], { instance: Symbol() });
+
+    let config = await configStore.load();
+
+    t.deepEqual(config, {
+        a: 1,
+        b: 2
     });
 });
 
@@ -53,7 +73,7 @@ test('should load and merge configuration from json providers', async (t) => {
             p2: 3,
             p3: [5,6]
         })
-    ], Symbol());
+    ], { instance: Symbol() });
 
     let config = await configStore.load();
 
@@ -87,7 +107,7 @@ test('should load and merge configuration from json providers and omit configura
                 p1: 4
             }
         })
-    ], Symbol());
+    ], { instance: Symbol() });
 
     let config = await configStore.load();
 
@@ -122,7 +142,7 @@ test('should load and merge configuration from json providers and omit configura
                 p1: 1
             }
         })
-    ], Symbol());
+    ], { instance: Symbol() });
 
     let config = await configStore.load();
 
@@ -132,4 +152,32 @@ test('should load and merge configuration from json providers and omit configura
         p2: 3,
         p3: [5,6]
     });
+});
+
+test('should realod configuration if provider updates', async (t) => {
+    let resolver;
+    let wait = new Promise((resolve) => {
+        resolver = resolve;
+    });
+    const configStore = new Store([
+        new UpdatingProvider()
+    ], { instance: Symbol() });
+
+    let config = {};
+
+    configStore.on('update', async () => {
+        config = await configStore.load();
+        resolver();
+    });
+
+    await configStore.load();
+    await wait;
+
+    t.deepEqual(config, {
+        a: 4,
+        b: 2,
+        c: 3,
+        d: 5
+    });
+
 });
