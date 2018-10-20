@@ -41,14 +41,15 @@ test('should load configuration from json provider', async (t) => {
     });
 });
 
-test('should merge configuration form sources but not overwrite with null', async (t) => {
+test('should merge configuration form sources but not overwrite with null or undefined', async (t) => {
     const configStore = new Store([
         new JsonProvider({
             a: 1,
             b: 2
         }),
         new JsonProvider({
-            a: null
+            a: null,
+            b: undefined
         })
     ], { instance: Symbol() });
 
@@ -57,6 +58,29 @@ test('should merge configuration form sources but not overwrite with null', asyn
     t.deepEqual(config, {
         a: 1,
         b: 2
+    });
+});
+
+test('should merge configuration form sources and overwrite with null or undefined', async (t) => {
+    const configStore = new Store([
+        new JsonProvider({
+            a: 1,
+            b: 2
+        }),
+        new JsonProvider({
+            a: null,
+            b: undefined
+        })
+    ], { 
+        instance: Symbol(),
+        allowFalsy: true
+    });
+
+    let config = await configStore.load();
+
+    t.deepEqual(config, {
+        a: null,
+        b: undefined
     });
 });
 
