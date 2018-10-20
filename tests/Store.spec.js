@@ -1,7 +1,7 @@
 const test = require('ava');
 const UpdatingProvider = require('./mocks/updating-provider.mock');
 const {
-    Store, 
+    muchconf, 
     ArgvProvider,
     EnvProvidder,
     JsonFileProvider,
@@ -9,20 +9,20 @@ const {
 } = require('../index');
 
 test('should return always the same instance', async (t) => {
-    const configStore_1 = new Store([]);
-    const configStore_2 = new Store([]);
+    const configStore_1 = muchconf();
+    const configStore_2 = muchconf();
     t.is(configStore_1.getSymbol(), configStore_2.getSymbol());
 });
 
 test('should return different instances of store', async (t) => {
-    const configStore_1 = new Store([]);
-    const configStore_2 = new Store([], { instance: Symbol() });
+    const configStore_1 = muchconf();
+    const configStore_2 = muchconf([], { instance: Symbol() });
 
     t.not(configStore_1.getSymbol(), configStore_2.getSymbol());
 });
 
 test('should load configuration from json provider', async (t) => {
-    const configStore = new Store([
+    const configStore = muchconf([
         new JsonProvider({
             name: 'test',
             p1: 1,
@@ -42,7 +42,7 @@ test('should load configuration from json provider', async (t) => {
 });
 
 test('should merge configuration form sources but not overwrite with null or undefined', async (t) => {
-    const configStore = new Store([
+    const configStore = muchconf([
         new JsonProvider({
             a: 1,
             b: 2
@@ -62,7 +62,7 @@ test('should merge configuration form sources but not overwrite with null or und
 });
 
 test('should merge configuration form sources and overwrite with null or undefined', async (t) => {
-    const configStore = new Store([
+    const configStore = muchconf([
         new JsonProvider({
             a: 1,
             b: 2
@@ -85,7 +85,7 @@ test('should merge configuration form sources and overwrite with null or undefin
 });
 
 test('should load and merge configuration from json providers', async (t) => {
-    const configStore = new Store([
+    const configStore = muchconf([
         new JsonProvider({
             name: 'config_1',
             p1: 1,
@@ -110,7 +110,7 @@ test('should load and merge configuration from json providers', async (t) => {
 });
 
 test('should load and merge configuration from json providers and omit configuration if condition not met', async (t) => {
-    const configStore = new Store([
+    const configStore = muchconf([
         new JsonProvider({
             name: 'config_1',
             p1: 1,
@@ -145,7 +145,7 @@ test('should load and merge configuration from json providers and omit configura
 
 
 test('should load and merge configuration from json providers and omit configuration if condition not met', async (t) => {
-    const configStore = new Store([
+    const configStore = muchconf([
         new JsonProvider({
             name: 'config_1',
             p1: 1,
@@ -183,7 +183,7 @@ test('should realod configuration if provider updates', async (t) => {
     let wait = new Promise((resolve) => {
         resolver = resolve;
     });
-    const configStore = new Store([
+    const configStore = muchconf([
         new UpdatingProvider()
     ], { instance: Symbol() });
 
