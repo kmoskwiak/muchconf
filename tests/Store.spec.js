@@ -73,7 +73,7 @@ test('should merge configuration form sources and overwrite with null or undefin
         })
     ], { 
         instance: Symbol(),
-        allowFalsy: true
+        allowNullOrUndefined: true
     });
 
     let config = await configStore.load();
