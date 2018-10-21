@@ -306,6 +306,42 @@ class AwsomeProvider extends Provider {
 ```
 In above example, if AsomeProvider will be called with options `{ castNumber: true, convertTrueFalseStrings: true }` values `'TRUE'` and `'9000'` will be converted to `true` and `9000` accordingly.
 
+Provider can emit `update` event when configuration changes. `muchconf` listens for those events and can reload aplication. To enable provider watching method `startWatching` must be called.
+
+```js
+const { Provider } = require('muchconf');
+const database = require('someDatabase');
+
+class AwsomeProvider extends Provider {
+    constructor(commonOptions) {
+        super(commonOptions);
+        this.db = database.connect();
+
+        this.configuration = {};
+        this.enableWatching();
+        watchForChanges();
+    }
+
+    async getConfiguration() {
+        return this.db.select('configuration');
+    }
+
+    watchForChanges() {
+        setTimeout( async () => {
+            let config = await this.db.select('configuration');
+            // Make sure that configuration has changed!
+            this.configuration = config;
+            watchForChanges();
+        }, 60000)
+    }
+
+    async load() {
+        this.configuration = await getConfiguration();
+        return Promise.resolve(this.configuration);
+    }
+}
+```
+
 
 _________
 ## Built in providers (configuration sources)
