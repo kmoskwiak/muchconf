@@ -272,9 +272,11 @@ __Syntax:__
 provider.parse(value);
 ```
 __Parameters:__
+
 | name         | type     | required  | default | description         |
 |--------------|----------|-----------|---------|---------------------|
 | value        | `string` | yes       |         | value to convert    |
+
 _Returns:_  
 Parsed value if it was possible in other case original one.
 
@@ -287,9 +289,11 @@ __Syntax:__
 provider.castNumber(value);
 ```
 __Parameters:__
+
 | name         | type     | required  | default | description         |
 |--------------|----------|-----------|---------|---------------------|
 | value        | `string` | yes       |         | value to convert    |
+
 __Returns:__  
 Parsed value if it was possible in other case original one.
 #### `convertTrueFalseString`
