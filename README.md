@@ -275,6 +275,7 @@ Each configuration provider extends this class. Provider is an instance of Event
 new Provider(options);
 ```
 __Parameters:__
+
 | name         | type     | required  | default          | description                                       |
 |--------------|----------|-----------|------------------|---------------------------------------------------|
 | `options`      | object   | no        | see below        | options for provider                              |
