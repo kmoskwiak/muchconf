@@ -1,4 +1,4 @@
-const muchconf = require('./lib/Store');
+const muchconf = require('./lib/Muchconf');
 const Provider = require('./lib/Provider');
 const ArgvProvider = require('./lib/providers/argv.provider');
 const EnvProvider = require('./lib/providers/env.provider');

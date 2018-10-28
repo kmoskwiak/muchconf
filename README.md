@@ -1,4 +1,4 @@
-<h1>muchconf</h1>
+# muchconf
 > Wow! So much configuration, so many sources!
 
 1. [What is muchconf?](#What%20is%20muchconf?)
