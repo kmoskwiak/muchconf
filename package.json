@@ -3,15 +3,25 @@
   "version": "1.0.0",
   "description": "Configuration for services",
   "main": "index.js",
+  "homepage": "https://github.com/kmoskwiak/muchconf",
+  "repository": {
+    "type" : "git",
+    "url" : "https://github.com/kmoskwiak/muchconf"
+  },
+  "engines" : { 
+    "node" : ">=8.11.0" 
+  },
+  "bugs":{
+    "url": "https://github.com/kmoskwiak/muchconf/issues",
+    "email": "kasper.moskwiak@gmail.com"
+  },
   "scripts": {
     "test": "ava ./tests/*.spec.js ./tests/**/*.spec.js --verbose"
   },
   "keywords": [
-    "configuration",
-    "multi",
-    "conf"
+    "configuration", "store","environmental","argv","env","json","multi","conf","muchconf"
   ],
-  "author": "Kasper Moskwiak <kasper.moskwiak@gmail.com>",
+  "author": "Kasper Moskwiak <kasper.moskwiak@gmail.com> (https://kspr.pl)",
   "license": "ISC",
   "devDependencies": {
     "ava": "^0.25.0"
