@@ -17,6 +17,7 @@
     5.4. [JsonFileProvider](#JsonFileProvider)
 6. [External providers](#External%20providers)
 7. [Writing custom provider](#Writing%20custom%20provider)
+8. [Examples](#Examples)
 
 
 ## What is muchconf?
@@ -189,7 +190,7 @@ const configStore = muchconf([], {
 
 ```
 
-To 
+To reference to that instance the same key must be passed each time.
 
 ```js
 const configStore = muchconf({ instance: 'unique_key' });
@@ -608,3 +609,7 @@ class AwsomeProvider extends Provider {
 }
 ```
 
+# Examples
+
+See examples:
+ - [HTTP server with muchconf](examples/server)
