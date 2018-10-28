@@ -370,10 +370,10 @@ Promise which resolves to configuration object.
 Provider represents source of configuration. Muchconf has 4 build in providers and supports external providers. Out of the box muchconf can get configuration form environmental variables, command line arguments, JSON or JSON file.
 
 Build-in providers:
-1) [EnvProvider](#EnvProvider) - environmental variables
-2) [ArgvProvider](#ArgvProvider) - command line arguments
-3) [JsonProvider](#JsonProvider) - JSON (or javascript object)
-4) [JsonFileProvider](#JsonFileProvider) - JSON file
+1. [EnvProvider](#EnvProvider) - environmental variables
+2. [ArgvProvider](#ArgvProvider) - command line arguments
+3. [JsonProvider](#JsonProvider) - JSON (or javascript object)
+4. [JsonFileProvider](#JsonFileProvider) - JSON file
 
 ### EnvProvider
 EnvProvider gets configuration form environmental variables in OS.
