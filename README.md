@@ -1,22 +1,22 @@
-# muchconf 
+<h1>muchconf</h1>
 > Wow! So much configuration, so many sources!
 
-1. [What is muchocnf?](#What%20is%20muchconf?)
+1. [What is muchconf?](#What%20is%20muchconf?)
 2. [Getting started](#Getting%20started)  
-    2.1 [Promise based approach](#Promise%20based%20approach:)  
-    2.2 [Event based approach](#Event%20based%20approach)
-3. [Loading configuration conditioanly]()
-4. [Providers (configuration sources)](#Providers%20\(configuration%20sources\))  
-    4.1. [EnvProvider](#EnvProvider)  
-    4.2. [ArgvProvider](#ArgvProvider)  
-    4.3. [JsonProvider](#JsonProvider)  
-    4.4. [JsonFileProvider](#JsonFileProvider)
-4. [External providers](#External%20providers)
-5. [Writing custom provider]()
-6. [Use cases]()  
-    6.1 [Multiple configuration sources]()  
-    6.2 [Configuration in development and production]()  
-    6.3 [Multiple insatces of muchconf]()
+    2.1. [Promise based approach](#Promise%20based%20approach:)  
+    2.2. [Event based approach](#Event%20based%20approach)  
+    2.3. [Initializing muchconf with multiple sources](#Initializing%20muchconf%20with%20multiple%20sources)  
+    2.4. [Loading configuration conditionally](#Loading%20configuration%20conditionally)  
+    2.5. [Multiple instances of muchconf](#Multiple%20instances%20of%20muchconf)
+3. [muchconf()](#muchconf\(\))
+4. [Class: Provider](#Class:%20Provider)  
+5. [Built in providers (configuration sources)](#Built%20in%20providers%20\(configuration%20sources\))  
+    5.1. [EnvProvider](#EnvProvider)  
+    5.2. [ArgvProvider](#ArgvProvider)  
+    5.3. [JsonProvider](#JsonProvider)  
+    5.4. [JsonFileProvider](#JsonFileProvider)
+6. [External providers](#External%20providers)
+7. [Writing custom provider](#Writing%20custom%20provider)
 
 
 ## What is muchconf?
@@ -74,10 +74,11 @@ configStore.load();
 `muchconf` accepts array of providers. The final configuration is result of combining configurations from each source. A succeeding provider overwrites same keys in preceding one.
 
 __Example:__
-```js
-const { Store, JsonProvider } = require('muchconf');
 
-const configStore = new Store([
+```js
+const { muchconf, JsonProvider } = require('muchconf');
+
+const configStore = muchconf([
     new JsonProvider({
         port: '9000',
         ip: '127.0.0.1'
@@ -104,13 +105,14 @@ configStore
 ### Loading configuration conditionally
 Each Provider is aware of configuration of its predecessors. It is possible to load configuration of given Provider based on current state of configuration.
 
-__Example:__  
+__Example:__
+
 Let's say we want run app on different port than default one in production environment. In following example the default port will be 3000 and production port will be 8080. In given example the last JsonProvider will overwrite `port` only if `env` will equal 'production'.
 
 ```js
-const { Store, EnvProvider, JsonProvider } = require('muchconf');
+const { muchconf, EnvProvider, JsonProvider } = require('muchconf');
 
-const configStore = new Store([
+const configStore = muchconf([
     new EnvProvider({
         env: 'NODE_ENV',
     }),
@@ -126,12 +128,13 @@ const configStore = new Store([
     })
 ]);
 ```
+
 Similar effect can be achieved with `not` option. The last Provider will overwrite configuration in every situation except when `env` will equal 'production'.
 
 ```js
-const { Store, EnvProvider, JsonProvider } = require('muchconf');
+const { muchconf, EnvProvider, JsonProvider } = require('muchconf');
 
-const configStore = new Store([
+const configStore = muchconf([
     new EnvProvider({
         env: 'NODE_ENV',
     }),
@@ -151,9 +154,9 @@ const configStore = new Store([
 It is possible to pass a function instead of expected value. The function must return true or false. In next example default port will be overwritten for 'production' or 'testing' environment.
 
 ```js
-const { Store, EnvProvider, JsonProvider } = require('muchconf');
+const { muchconf, EnvProvider, JsonProvider } = require('muchconf');
 
-const configStore = new Store([
+const configStore = muchconf([
     new EnvProvider({
         env: 'NODE_ENV',
     }),
@@ -172,17 +175,40 @@ const configStore = new Store([
 ]);
 ```
 
+### Multiple instances of muchconf
+By default calling `muchconf()` will always return the same instance of store. It is possible to create new store by passing unique key in `options.instance`.
+
+```js
+const muchconf = require('muchconf');
+
+const instanceKey = 'unique_key';
+
+const configStore = muchconf([], {
+    instance: instanceKey
+});
+
+```
+
+To 
+
+```js
+const configStore = muchconf({ instance: 'unique_key' });
+```
+
+
 ----------------------
 
 ## muchconf()
-`muchconf` is a store for configuration. It accepts array of providers and additional options. Muchconf is `singleton`, which means wherever you require it in your project always will be returned the same instance (multiple instances are also possible - see [multiple muchconf instances]()).
+`muchconf` is a store for configuration. It accepts array of providers and additional options. Muchconf is `singleton`, which means wherever you require it in your project always will be returned the same instance (multiple instances are also possible - see [multiple muchconf instances](#Multiple%20instances%20of%20muchconf)).
 
-### Syntax
+__Syntax:__
+
 ```js
 muchconf(providers, options);
 ```
 
-### Parameters
+__Parameters:__
+
 | name                              | type                  | required  | default                   | description                                       |
 |-----------------------------------|-----------------------|-----------|---------------------------|---------------------------------------------------|
 |`providers`                        | array of Providers    | no        | []                        | Providers of configuration to feed the store      |
@@ -190,11 +216,10 @@ muchconf(providers, options);
 | `options.instance`                | symbol or string      | no        | new `Symbol()` is created | Each instance of muchconf is identified by unique key. By default muchconf creates its key by its self. If more than one instance of muchconf is required it can be created by passing custom `instance` key. The same key must by used later to refer to this instance.
 | `options.allowNullOrUndefined`    | boolean               | no        | `false`                   | Should `null` or `undefined` be treated as a proper value. If set to false (default behavior) `null` or `undefined` won't overwrite existing configuration.                                                                                            |
 
-### Returns
+__Returns:__  
 Instance of configuration store. 
 
 ### Methods
-
 #### `load` 
 Loads configuration from store. I returns promise, which resolves to configuration object. 
 
@@ -225,6 +250,7 @@ configStore.getSymbol();
 
 ### Events
 Muchconf store is an instance of EventEmitter. During its lifecycle couple events are emitted.
+
 | Event name    | Description                                                          |
 |---------------|----------------------------------------------------------------------|
 | `ready`       | Fired after store initialization and when final configuration is ready. `ready` event is fired only once in store lifecycle.
@@ -234,19 +260,20 @@ Muchconf store is an instance of EventEmitter. During its lifecycle couple event
 
 
 Event cycle:
+
 | state \ event name | ready | loaded | update |
 |---------------|:-------:|:--------:|:--------:|
 | Instance of muchconf initialized and configuration is ready | __yes__ | __yes__ | no |
 | Configuration has been updated | no | __yes__ | __yes__ |
 
----------
+-----------------------
 ## Class: Provider
 Each configuration provider extends this class. Provider is an instance of EventEmitter.
 
 ```js
 new Provider(options);
 ```
-### Parameters:
+__Parameters:__
 | name         | type     | required  | default          | description                                       |
 |--------------|----------|-----------|------------------|---------------------------------------------------|
 | `options`      | object   | no        | see below        | options for provider                              |
@@ -304,9 +331,11 @@ __Syntax:__
 provider.convertTrueFalseString(value);
 ```
 __Parameters:__
+
 | name         | type     | required  | default | description         |
 |--------------|----------|-----------|---------|---------------------|
 | value        | `string` | yes       |         | value to convert    |
+
 _Returns:_  
 Parsed value if it was possible in other case original one.
 #### `cutQuotations`
@@ -317,9 +346,11 @@ __Syntax:__
 provider.cutQuotations(value);
 ```
 __Parameters:__
+
 | name         | type     | required  | default | description         |
 |--------------|----------|-----------|---------|---------------------|
 | value        | `string` | yes       |         | value to convert    |
+
 _Returns:_  
 Parsed value if it was possible in other case original one.
 
@@ -337,10 +368,10 @@ Promise which resolves to configuration object.
 Provider represents source of configuration. Muchconf has 4 build in providers and supports external providers. Out of the box muchconf can get configuration form environmental variables, command line arguments, JSON or JSON file.
 
 Build-in providers:
-1) [EnvProvider](###EnvProvider) - environmental variables
-2) [ArgvProvider](###ArgvProvider) - command line arguments
-3) [JsonProvider](###JsonProvider) - JSON (or javascript object)
-4) [JsonFileProvider](###JsonFileProvider) - JSON file
+1) [EnvProvider](#EnvProvider) - environmental variables
+2) [ArgvProvider](#ArgvProvider) - command line arguments
+3) [JsonProvider](#JsonProvider) - JSON (or javascript object)
+4) [JsonFileProvider](#JsonFileProvider) - JSON file
 
 ### EnvProvider
 EnvProvider gets configuration form environmental variables in OS.
@@ -350,6 +381,7 @@ __Syntax:__
 new EnvProvider(configurationMap, providerOptions)
 ```
 __Parameters:__
+
 | name                 | type     | required  | default | description         |
 |----------------------|----------|-----------|---------|---------------------|
 | `configurationMap`   | `object` | yes       |         | object representing configuration. It could be nested or include arrays. Each value will be replaced with value of ENV variable with that name   |
@@ -393,6 +425,7 @@ __Syntax:__
 new ArgvProvider(configurationMap, providerOptions)
 ```
 __Parameters:__
+
 | name                 | type     | required  | default | description         |
 |----------------------|----------|-----------|---------|---------------------|
 | `configurationMap`   | `object` | yes       |         | object representing configuration. It could be nested or include arrays. Each value will be replaced with value of option with that name preceded with double dash.   |
@@ -438,6 +471,7 @@ __Syntax:__
 new JsonProvider(json, providerOptions)
 ```
 __Parameters:__
+
 | name                 | type     | required  | default | description         |
 |----------------------|----------|-----------|---------|---------------------|
 | `json`               | `object` | yes       |         | object with configuration   |
@@ -468,6 +502,7 @@ __Syntax:__
 new JsonFileProvider(filePath, providerOptions)
 ```
 __Parameters:__
+
 | name                 | type     | required  | default | description         |
 |----------------------|----------|-----------|---------|---------------------|
 | `filePath`           | `string` | yes       |         | path to file with configuration |
@@ -488,7 +523,6 @@ Here is list of external providers.
 | Configuration source | Link                           | Description                    |
 | -------------------- |--------------------------------| -------------------------------|
 | consul               |[kmoskwiak/muchconf-consul-provider](https://github.com/kmoskwiak/muchconf-consul-provider) | Imports configuration from consul KV store. Support for configuration reloading. |
-
 
 
 ## Writing custom provider

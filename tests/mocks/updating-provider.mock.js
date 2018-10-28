@@ -8,7 +8,7 @@ class UpdatingProvider extends Provider {
             b: 2,
             c: 3
         };
-        this.startWatching();
+        this.enableWatching();
         this.update();
     }
 

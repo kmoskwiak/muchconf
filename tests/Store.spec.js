@@ -16,7 +16,7 @@ test('should return always the same instance', async (t) => {
 
 test('should return different instances of store', async (t) => {
     const configStore_1 = muchconf();
-    const configStore_2 = muchconf([], { instance: Symbol() });
+    const configStore_2 = muchconf({ instance: Symbol() });
 
     t.not(configStore_1.getSymbol(), configStore_2.getSymbol());
 });
@@ -190,8 +190,13 @@ test('should realod configuration if provider updates', async (t) => {
     let config = {};
 
     configStore.on('update', async () => {
-        config = await configStore.load();
-        resolver();
+        try {
+            config = await configStore.load();
+            resolver();
+        } catch(err) {
+            console.log(err);
+        }
+        
     });
 
     await configStore.load();
