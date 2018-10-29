@@ -1,6 +1,10 @@
 # muchconf
 > Wow! So much configuration, so many sources!
 
+
+[![npm](https://img.shields.io/npm/v/muchconf.svg)](https://www.npmjs.com/package/muchconf)
+[![Build Status](https://travis-ci.org/kmoskwiak/muchconf.svg?branch=master)](https://travis-ci.org/kmoskwiak/muchconf)
+
 1. [What is muchconf?](#what-is-muchconf)
 2. [Getting started](#getting-started)  
     2.1. [Promise based approach](#promise-based-approach)  
