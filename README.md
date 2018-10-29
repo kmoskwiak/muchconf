@@ -1,29 +1,30 @@
 # muchconf
 > Wow! So much configuration, so many sources!
 
-1. [What is muchconf?](#What%20is%20muchconf?)
-2. [Getting started](#Getting%20started)  
-    2.1. [Promise based approach](#Promise%20based%20approach:)  
-    2.2. [Event based approach](#Event%20based%20approach)  
-    2.3. [Initializing muchconf with multiple sources](#Initializing%20muchconf%20with%20multiple%20sources)  
-    2.4. [Loading configuration conditionally](#Loading%20configuration%20conditionally)  
-    2.5. [Multiple instances of muchconf](#Multiple%20instances%20of%20muchconf)
-3. [muchconf()](#muchconf\(\))
-4. [Class: Provider](#Class:%20Provider)  
-5. [Built in providers (configuration sources)](#Built%20in%20providers%20\(configuration%20sources\))  
-    5.1. [EnvProvider](#EnvProvider)  
-    5.2. [ArgvProvider](#ArgvProvider)  
-    5.3. [JsonProvider](#JsonProvider)  
-    5.4. [JsonFileProvider](#JsonFileProvider)
-6. [External providers](#External%20providers)
-7. [Writing custom provider](#Writing%20custom%20provider)
-8. [Examples](#Examples)
+1. [What is muchconf?](#what-is-muchconf)
+2. [Getting started](#getting-started)  
+    2.1. [Promise based approach](#promise-based-approach)  
+    2.2. [Event based approach](#event-based-approach)  
+    2.3. [Initializing muchconf with multiple sources](#initializing-muchconf-with-multiple-sources)  
+    2.4. [Loading configuration conditionally](#loading-configuration-conditionally)  
+    2.5. [Multiple instances of muchconf](#multiple-instances-of-muchconf)
+3. [muchconf()](#muchconf-1)
+4. [Class: Provider](#class-provider)  
+5. [Built in providers (configuration sources)](#built-in-providers-configuration-sources)  
+    5.1. [EnvProvider](#envprovider)  
+    5.2. [ArgvProvider](#argvprovider)  
+    5.3. [JsonProvider](#jsonprovider)  
+    5.4. [JsonFileProvider](#jsonfileprovider)
+6. [External providers](#external-providers)
+7. [Writing custom provider](#writing-custom-provider)
+8. [Examples](#examples)
+9. [Tests](#tests)
 
 
 ## What is muchconf?
 Muchconf is a module which allows to get configuration for your NodeJS app. It supports **multiple sources** of configuration and can load different configuration according to environment (e.g. development or production) or any custom logic.
 
-Out of the box muchconf supports 4 sources of configuration: environmental variables, command line arguments, json and json (js) files. Additional sources can be added using [external providers](#External%20providers).
+Out of the box muchconf supports 4 sources of configuration: environmental variables, command line arguments, json and json (js) files. Additional sources can be added using [external providers](#external-providers).
 
 Muchconf can reload your application if configuration changes and source supports it.
 
@@ -200,7 +201,7 @@ const configStore = muchconf({ instance: 'unique_key' });
 ----------------------
 
 ## muchconf()
-`muchconf` is a store for configuration. It accepts array of providers and additional options. Muchconf is `singleton`, which means wherever you require it in your project always will be returned the same instance (multiple instances are also possible - see [multiple muchconf instances](#Multiple%20instances%20of%20muchconf)).
+`muchconf` is a store for configuration. It accepts array of providers and additional options. Muchconf is `singleton`, which means wherever you require it in your project always will be returned the same instance (multiple instances are also possible - see [multiple muchconf instances](#multiple-instances-of-muchconf)).
 
 __Syntax:__
 
@@ -370,10 +371,10 @@ Promise which resolves to configuration object.
 Provider represents source of configuration. Muchconf has 4 build in providers and supports external providers. Out of the box muchconf can get configuration form environmental variables, command line arguments, JSON or JSON file.
 
 __Build-in providers:__  
-1. [EnvProvider](#EnvProvider) - environmental variables  
-2. [ArgvProvider](#ArgvProvider) - command line arguments  
-3. [JsonProvider](#JsonProvider) - JSON (or javascript object)  
-4. [JsonFileProvider](#JsonFileProvider) - JSON file  
+1. [EnvProvider](#envprovider) - environmental variables  
+2. [ArgvProvider](#argvprovider) - command line arguments  
+3. [JsonProvider](#jsonprovider) - JSON (or javascript object)  
+4. [JsonFileProvider](#jsonfileprovider) - JSON file  
 
 ### EnvProvider
 EnvProvider gets configuration form environmental variables in OS.
@@ -387,7 +388,7 @@ __Parameters:__
 | name                 | type     | required  | default | description         |
 |----------------------|----------|-----------|---------|---------------------|
 | `configurationMap`   | `object` | yes       |         | object representing configuration. It could be nested or include arrays. Each value will be replaced with value of ENV variable with that name   |
-| `providerOptions`    | `object` | no        |         |common options for provider. See [Provider](##Provider) section |
+| `providerOptions`    | `object` | no        |         |common options for provider. See [Provider](#class-provider) section |
 
 __Example:__
 ```js
@@ -477,7 +478,7 @@ __Parameters:__
 | name                 | type     | required  | default | description         |
 |----------------------|----------|-----------|---------|---------------------|
 | `json`               | `object` | yes       |         | object with configuration   |
-| `providerOptions`    | `object` | no        |         | common options for provider. See [Provider](##Provider) section |
+| `providerOptions`    | `object` | no        |         | common options for provider. See [Provider](#class-provider) section |
 
 
 __Example:__
@@ -508,7 +509,7 @@ __Parameters:__
 | name                 | type     | required  | default | description         |
 |----------------------|----------|-----------|---------|---------------------|
 | `filePath`           | `string` | yes       |         | path to file with configuration |
-| `providerOptions`    | `object` | no        |         | common options for provider. See [Provider](##Provider) section |
+| `providerOptions`    | `object` | no        |         | common options for provider. See [Provider](#class-provider) section |
 
 __Example:__
 ```js
