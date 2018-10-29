@@ -282,8 +282,8 @@ __Parameters:__
 | `options.castNumbers` | boolean | no | false | if possible, strings will be converted to number, e.g. '2' will be 2 |
 | `options.convertTrueFalseStrings` | boolean | no | false | strings like 'true' or 'false' will be converted to boolean |
 | `options.cutQuotations` | boolean | no | false | double quotation marks form beginning and ending of string will be cut off. E.g. '"some value"' will be 'some value' |
-| `options.not` | object | no | undefined | |
-| `options.is` | object | no  | undefined | |
+| `options.not` | object | no | undefined | conditions when provider should not be used |
+| `options.is` | object | no  | undefined | conditions when provider should be used     |
 
 ### Methods
 #### `enableWatching`
@@ -610,7 +610,14 @@ class AwsomeProvider extends Provider {
 }
 ```
 
-# Examples
+## Examples
 
 See examples:
  - [HTTP server with muchconf](examples/server)
+
+
+## Tests
+
+```js
+npm run test
+```
