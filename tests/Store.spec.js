@@ -1,4 +1,5 @@
 const test = require('ava');
+const path = require('path');
 const UpdatingProvider = require('./mocks/updating-provider.mock');
 const {
     muchconf, 
@@ -209,4 +210,28 @@ test('should realod configuration if provider updates', async (t) => {
         d: 5
     });
 
+});
+
+test('should run provider with options passed in configuration', async (t) => {
+    const jsonConfigFilePath = path.resolve(__dirname, './mocks/config.json');
+    const configStore = muchconf([
+        new JsonProvider({
+            filePath: jsonConfigFilePath
+        }),
+        new JsonFileProvider(
+            config => config.filePath
+        )
+    ], {instance: Symbol()});
+
+    let config = await configStore.load();
+    t.deepEqual(config, {
+        filePath: jsonConfigFilePath,
+        mongo: {
+            uri: 'mongo://localhost',
+            dbName: 'data'
+        },
+        active: true,
+        appName: 'testApp',
+        number: 44
+    });
 });

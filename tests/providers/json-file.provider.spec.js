@@ -7,7 +7,8 @@ const jsConfigFilePath = path.resolve(__dirname, '../mocks/config.js');
 
 test('should import config form json file', async (t) => {
     const configProvider = new JSONfileProvider(jsonConfigFilePath);
-
+    
+    configProvider.init();
     const config = await configProvider.load();
 
     t.deepEqual(config, {
@@ -24,6 +25,7 @@ test('should import config form json file', async (t) => {
 test('should import config form json file', async (t) => {
     const configProvider = new JSONfileProvider(jsConfigFilePath);
 
+    configProvider.init();
     const config = await configProvider.load();
 
     t.deepEqual(config, {
