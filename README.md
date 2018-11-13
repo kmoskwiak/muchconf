@@ -14,7 +14,7 @@
     2.5. [Multiple instances of muchconf](#multiple-instances-of-muchconf)
 3. [muchconf()](#muchconf-1)
 4. [Class: Provider](#class-provider)  
-5. [Built in providers (configuration sources)](#built-in-providers-configuration-sources)  
+5. [Built-in providers (configuration sources)](#built-in-providers-configuration-sources)
     5.1. [EnvProvider](#envprovider)  
     5.2. [ArgvProvider](#argvprovider)  
     5.3. [JsonProvider](#jsonprovider)  
@@ -37,7 +37,7 @@ Install module using your favorite package manager.
 ```bash
 npm install muchconf
 ```
-Configuration will be kept in `Store`. To feed Store with configuration use at least one `Provider` (you can choose from built in providers or use an external one). 
+Configuration will be kept in `Store`. To feed Store with configuration use at least one `Provider` (you can choose from built-in providers or use an external one). 
 
 ### Promise based approach
 ```js
@@ -113,7 +113,7 @@ Each Provider is aware of configuration of its predecessors. It is possible to l
 
 __Example:__
 
-Let's say we want run app on different port than default one in production environment. In following example the default port will be 3000 and production port will be 8080. In given example the last JsonProvider will overwrite `port` only if `env` will equal 'production'.
+Let's say we want to run app on a different port than default one in production environment. In the following example the default port will be 3000 and production port will be 8080. In given example the last JsonProvider will overwrite `port` only if `env` equals 'production'.
 
 ```js
 const { muchconf, EnvProvider, JsonProvider } = require('muchconf');
@@ -135,7 +135,7 @@ const configStore = muchconf([
 ]);
 ```
 
-Similar effect can be achieved with `not` option. The last Provider will overwrite configuration in every situation except when `env` will equal 'production'.
+Similar effect can be achieved with `not` option. The last Provider will overwrite configuration in every situation except when `env` equals 'production'.
 
 ```js
 const { muchconf, EnvProvider, JsonProvider } = require('muchconf');
@@ -182,7 +182,7 @@ const configStore = muchconf([
 ```
 
 ### Multiple instances of muchconf
-By default calling `muchconf()` will always return the same instance of store. It is possible to create new store by passing unique key in `options.instance`.
+By default calling `muchconf()` always returns the same instance of store. It is possible to create new store by passing unique key in `options.instance`.
 
 ```js
 const muchconf = require('muchconf');
@@ -219,7 +219,7 @@ __Parameters:__
 |-----------------------------------|-----------------------|-----------|---------------------------|---------------------------------------------------|
 |`providers`                        | array of Providers    | no        | []                        | Providers of configuration to feed the store      |
 | `options`                         | object                | no        | see below                 |   options for muchconf                            |
-| `options.instance`                | symbol or string      | no        | new `Symbol()` is created | Each instance of muchconf is identified by unique key. By default muchconf creates its key by its self. If more than one instance of muchconf is required it can be created by passing custom `instance` key. The same key must by used later to refer to this instance.
+| `options.instance`                | symbol or string      | no        | new `Symbol()` is created | Each instance of muchconf is identified by unique key. By default muchconf creates its key by itself. If more than one instance of muchconf is required it can be created by passing custom `instance` key. The same key must by used later to refer to this instance.
 | `options.allowNullOrUndefined`    | boolean               | no        | `false`                   | Should `null` or `undefined` be treated as a proper value. If set to false (default behavior) `null` or `undefined` won't overwrite existing configuration.                                                                                            |
 
 __Returns:__  
@@ -234,7 +234,7 @@ __Syntax:__
 configStore
     .load()
     .then((config) => {
-        // configuration is avalivle here
+        // configuration is available here
     });
 ``` 
 
@@ -255,7 +255,7 @@ configStore.getSymbol();
 ```
 
 ### Events
-Muchconf store is an instance of EventEmitter. During its lifecycle couple events are emitted.
+Muchconf store is an instance of EventEmitter. During its lifecycle the following events are emitted:
 
 | Event name    | Description                                                          |
 |---------------|----------------------------------------------------------------------|
@@ -267,7 +267,7 @@ Muchconf store is an instance of EventEmitter. During its lifecycle couple event
 
 Event cycle:
 
-| state \ event name | ready | loaded | update |
+| state / event name | ready | loaded | update |
 |---------------|:-------:|:--------:|:--------:|
 | Instance of muchconf initialized and configuration is ready | __yes__ | __yes__ | no |
 | Configuration has been updated | no | __yes__ | __yes__ |
@@ -299,7 +299,7 @@ __Syntax:__
 provider.enableWatching();
 ```
 #### `parse`
-If possible and enabled in options passed to provider transforms configuration value. 
+If possible and enabled in options passed to provider it transforms configuration value. 
 
 __Syntax:__
 ```js
@@ -312,7 +312,7 @@ __Parameters:__
 | value        | `string` | yes       |         | value to convert    |
 
 _Returns:_  
-Parsed value if it was possible in other case original one.
+Parsed value if it was possible, in other case original one.
 
 
 #### `castNumber`
@@ -362,7 +362,7 @@ _Returns:_
 Parsed value if it was possible in other case original one.
 
 #### `load`
-Loads configuration. It should be implemented in custom provider. If not it will always resolve to empty configuration.
+Loads configuration. It should be implemented in custom provider. If not it always resolves to empty configuration.
 
 __Syntax:__
 ```js
@@ -371,10 +371,10 @@ provider.load();
 __Returns:__  
 Promise which resolves to configuration object.
 
-## Built in providers (configuration sources)
-Provider represents source of configuration. Muchconf has 4 build in providers and supports external providers. Out of the box muchconf can get configuration form environmental variables, command line arguments, JSON or JSON file.
+## Built-in providers (configuration sources)
+Provider represents source of configuration. Muchconf has four built-in providers and supports external providers. Out of the box muchconf can get configuration form environmental variables, command line arguments, JSON or JSON file.
 
-__Build-in providers:__  
+__Built-in providers:__
 1. [EnvProvider](#envprovider) - environmental variables  
 2. [ArgvProvider](#argvprovider) - command line arguments  
 3. [JsonProvider](#jsonprovider) - JSON (or javascript object)  
@@ -502,7 +502,7 @@ const configStore = new Store([
 ```
 
 #### JsonFileProvider
-JsonFileProvider will import JSON or JS file with configuration. 
+JsonFileProvider imports JSON or JS file with configuration. 
 
 __Syntax:__
 ```js
@@ -533,9 +533,9 @@ Here is list of external providers.
 
 
 ## Writing custom provider
-By itself Provider is not very useful, it will always return empty configuration :). Provider class allows to create custom providers.
+By itself Provider is not very useful, it always returns empty configuration :). Provider class allows to create custom providers.
 
-The simplest custom provider extends `Provider` class and expose method `load`. Here is an example of provider, which always returns `{ awsome: true }` configuration.
+The simplest custom provider extends `Provider` class and exposes `load` method. Here is an example of provider, which always returns `{ awesome: true }` configuration.
 
 ```js
 const { Provider } = require('muchconf');
@@ -544,7 +544,7 @@ class AwsomeProvider extends Provider {
     constructor(commonOptions) {
         super(commonOptions);
         this.myConfiguration = {
-            awsome: true
+            awesome: true
         };
     }
 
@@ -563,7 +563,7 @@ class AwsomeProvider extends Provider {
         super(commonOptions);
 
         this.myConfiguration = {
-            awsome: 'TRUE',
+            awesome: 'TRUE',
             port: '9000'
         };
     }
