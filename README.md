@@ -108,6 +108,22 @@ configStore
     });
 ```
 
+### Passing configuration to provider options
+Configuration can be passed to provider options. For example file path can be passed via configuration to `JsonFileProvider`.
+
+```js
+const { muchconf, JsonProvider } = require('muchconf');
+
+const configStore = muchconf([
+    new JsonProvider({
+        filePath: '/app/config/prod.json'
+    }),
+    new JsonFileProvider(
+        config => config.filePath
+    )
+]);
+```
+
 ### Loading configuration conditionally
 Each Provider is aware of configuration of its predecessors. It is possible to load configuration of given Provider based on current state of configuration.
 
