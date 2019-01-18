@@ -41,10 +41,10 @@ Configuration will be kept in `Store`. To feed Store with configuration use at l
 
 ### Promise based approach
 ```js
-const { muchconf, EnvProvider } = require('muchconf');
+const { muchconf, muchEnv } = require('muchconf');
 
 const configStore = muchconf([
-    new EnvProvider({
+    muchEnv({
         port: 'PORT',
         ip: 'IP'
     })
@@ -59,10 +59,10 @@ configStore
 ```
 ### Event based approach
 ```js
-const { muchconf, EnvProvider } = require('muchconf');
+const { muchconf, muchEnv } = require('muchconf');
 
 const configStore = muchconf([
-    new EnvProvider({
+    muchEnv({
         port: 'PORT',
         ip: 'IP'
     })
@@ -82,14 +82,14 @@ configStore.load();
 __Example:__
 
 ```js
-const { muchconf, JsonProvider } = require('muchconf');
+const { muchconf, muchJson } = require('muchconf');
 
 const configStore = muchconf([
-    new JsonProvider({
+    muchJson({
         port: '9000',
         ip: '127.0.0.1'
     }),
-    new JsonProvider({
+    muchJson({
         port: '8080'
     })
 ]);
@@ -112,13 +112,13 @@ configStore
 Configuration can be passed to provider options. For example file path can be passed via configuration to `JsonFileProvider`.
 
 ```js
-const { muchconf, JsonProvider } = require('muchconf');
+const { muchconf, muchJson, muchJsonFile } = require('muchconf');
 
 const configStore = muchconf([
-    new JsonProvider({
+    muchJson({
         filePath: '/app/config/prod.json'
     }),
-    new JsonFileProvider(
+    muchJsonFile(
         config => config.filePath
     )
 ]);
@@ -132,16 +132,16 @@ __Example:__
 Let's say we want to run app on a different port than default one in production environment. In the following example the default port will be 3000 and production port will be 8080. In given example the last JsonProvider will overwrite `port` only if `env` equals 'production'.
 
 ```js
-const { muchconf, EnvProvider, JsonProvider } = require('muchconf');
+const { muchconf, muchEnv, muchJson } = require('muchconf');
 
 const configStore = muchconf([
-    new EnvProvider({
+    muchEnv({
         env: 'NODE_ENV',
     }),
-    new JsonProvider({
+    muchJson({
         port: '3000'
     }),
-    new JsonProvider({
+    muchJson({
         port: '8080'
     }, {
         is: {
@@ -154,16 +154,16 @@ const configStore = muchconf([
 Similar effect can be achieved with `not` option. The last Provider will overwrite configuration in every situation except when `env` equals 'production'.
 
 ```js
-const { muchconf, EnvProvider, JsonProvider } = require('muchconf');
+const { muchconf, muchEnv, muchJson } = require('muchconf');
 
 const configStore = muchconf([
-    new EnvProvider({
+    muchEnv({
         env: 'NODE_ENV',
     }),
-    new JsonProvider({
+    muchJson({
         port: '8080'
     }),
-    new JsonProvider({
+    muchJson({
         port: '3000'
     }, {
         not: {
@@ -176,16 +176,16 @@ const configStore = muchconf([
 It is possible to pass a function instead of expected value. The function must return true or false. In next example default port will be overwritten for 'production' or 'testing' environment.
 
 ```js
-const { muchconf, EnvProvider, JsonProvider } = require('muchconf');
+const { muchconf, muchEnv, muchJson } = require('muchconf');
 
 const configStore = muchconf([
-    new EnvProvider({
+    muchEnv({
         env: 'NODE_ENV',
     }),
-    new JsonProvider({
+    muchJson({
         port: '3000'
     }),
-    new JsonProvider({
+    muchJson({
         port: '8080'
     }, {
         is: {
@@ -403,6 +403,10 @@ __Syntax:__
 ```js
 new EnvProvider(configurationMap, providerOptions)
 ```
+or
+```js
+muchEnv(configurationMap, providerOptions)
+```
 __Parameters:__
 
 | name                 | type     | required  | default | description         |
@@ -412,10 +416,10 @@ __Parameters:__
 
 __Example:__
 ```js
-const { Store, EnvProvider } = require('muchconf');
+const { muchconf, muchEnv } = require('muchconf');
 
-const configStore = new Store([
-    new EnvProvider({
+const configStore = muchconf([
+    muchEnv({
         env: 'NODE_ENV',
         port: 'PORT',
         mongo: {
@@ -447,6 +451,10 @@ __Syntax:__
 ```js
 new ArgvProvider(configurationMap, providerOptions)
 ```
+or
+```js
+muchArgv(configurationMap, providerOptions)
+```
 __Parameters:__
 
 | name                 | type     | required  | default | description         |
@@ -457,10 +465,10 @@ __Parameters:__
 
 __Example:__
 ```js
-const { Store, ArgvProvider } = require('muchconf');
+const { muchconf, muchArgv } = require('muchconf');
 
-const configStore = new Store([
-    new ArgvProvider({
+const configStore = muchconf([
+    muchArgv({
         env: 'env',
         port: 'port',
         mongo: {
@@ -493,6 +501,10 @@ __Syntax:__
 ```js
 new JsonProvider(json, providerOptions)
 ```
+or
+```js
+muchJson(json, providerOptions)
+```
 __Parameters:__
 
 | name                 | type     | required  | default | description         |
@@ -503,10 +515,10 @@ __Parameters:__
 
 __Example:__
 ```js
-const { Store, JsonProvider } = require('muchconf');
+const { muchconf, muchJson } = require('muchconf');
 
-const configStore = new Store([
-    new JsonProvider({
+const configStore = muchconf([
+    muchJson({
         env: 'production',
         port: 9000,
         mongo: {
@@ -524,6 +536,10 @@ __Syntax:__
 ```js
 new JsonFileProvider(filePath, providerOptions)
 ```
+or
+```js
+muchJsonFile(filePath, providerOptions)
+```
 __Parameters:__
 
 | name                 | type     | required  | default | description         |
@@ -533,10 +549,10 @@ __Parameters:__
 
 __Example:__
 ```js
-const { Store, JsonFileProvider } = require('muchconf');
+const { muchconf, muchJsonFile } = require('muchconf');
 
-const configStore = new Store([
-    new JsonProvider('/app/config/configuration.json')
+const configStore = muchconf([
+    muchJsonFile('/app/config/configuration.json')
 ]);
 ```
 
