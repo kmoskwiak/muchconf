@@ -6,7 +6,9 @@ const {
     ArgvProvider,
     EnvProvidder,
     JsonFileProvider,
-    JsonProvider
+    JsonProvider,
+    muchJson,
+    muchJsonFile
 } = require('../index');
 
 test('should return always the same instance', async (t) => {
@@ -41,6 +43,27 @@ test('should load configuration from json provider', async (t) => {
         p3: [1,2,3]
     });
 });
+
+test('should load configuration from json provider using wrapper', async (t) => {
+    const configStore = muchconf([
+        muchJson({
+            name: 'test',
+            p1: 1,
+            p2: 2,
+            p3: [1,2,3]
+        })
+    ], { instance: Symbol() });
+
+    let config = await configStore.load();
+
+    t.deepEqual(config, {
+        name: 'test',
+        p1: 1,
+        p2: 2,
+        p3: [1,2,3]
+    });
+});
+
 
 test('should merge configuration form sources but not overwrite with null or undefined', async (t) => {
     const configStore = muchconf([
@@ -144,6 +167,41 @@ test('should load and merge configuration from json providers and omit configura
     });
 });
 
+test('should load and merge configuration from wrapped json providers and omit configuration if condition not met', async (t) => {
+    const configStore = muchconf([
+        muchJson({
+            name: 'config_1',
+            p1: 1,
+            p2: 2,
+            p3: [1,2,3]
+        }),
+        muchJson({
+            name: 'config_2',
+            p2: 3,
+            p3: [5,6]
+        }),
+        muchJson({
+            name: 'config_3',
+            p2: 5,
+            p3: [5,6]
+        }, {
+            is: {
+                p1: 4
+            }
+        })
+    ], { instance: Symbol() });
+
+    let config = await configStore.load();
+
+    t.deepEqual(config, {
+        name: 'config_2',
+        p1: 1,
+        p2: 3,
+        p3: [5,6]
+    });
+});
+
+
 
 test('should load and merge configuration from json providers and omit configuration if condition not met', async (t) => {
     const configStore = muchconf([
@@ -219,6 +277,30 @@ test('should run provider with options passed in configuration', async (t) => {
             filePath: jsonConfigFilePath
         }),
         new JsonFileProvider(
+            config => config.filePath
+        )
+    ], {instance: Symbol()});
+
+    let config = await configStore.load();
+    t.deepEqual(config, {
+        filePath: jsonConfigFilePath,
+        mongo: {
+            uri: 'mongo://localhost',
+            dbName: 'data'
+        },
+        active: true,
+        appName: 'testApp',
+        number: 44
+    });
+});
+
+test('should run wrapped provider with options passed in configuration', async (t) => {
+    const jsonConfigFilePath = path.resolve(__dirname, './mocks/config.json');
+    const configStore = muchconf([
+        muchJson({
+            filePath: jsonConfigFilePath
+        }),
+        muchJsonFile(
             config => config.filePath
         )
     ], {instance: Symbol()});
