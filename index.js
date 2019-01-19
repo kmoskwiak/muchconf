@@ -4,20 +4,20 @@ const ArgvProvider = require('./lib/providers/argv.provider');
 const EnvProvider = require('./lib/providers/env.provider');
 const JsonFileProvider = require('./lib/providers/json-file.provider');
 const JsonProvider = require('./lib/providers/json.provider');
-const wrapProvider = require('./lib/utils/providerWrapper');
+const wrap = require('./lib/utils/providerWrapper');
 
 module.exports = {
     muchconf,
     Provider,
-    wrapProvider,
+    wrap,
 
     ArgvProvider,
     EnvProvider,
     JsonFileProvider,
     JsonProvider, 
 
-    muchArgv: wrapProvider(ArgvProvider),
-    muchEnv: wrapProvider(EnvProvider),
-    muchJsonFile: wrapProvider(JsonFileProvider),
-    muchJson: wrapProvider(JsonProvider) 
+    muchArgv: wrap(ArgvProvider),
+    muchEnv: wrap(EnvProvider),
+    muchJsonFile: wrap(JsonFileProvider),
+    muchJson: wrap(JsonProvider) 
 };
