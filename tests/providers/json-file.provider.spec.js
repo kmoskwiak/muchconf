@@ -37,3 +37,12 @@ test('should import config form json file', async (t) => {
         number: 44
     });
 });
+
+test('should throw', async (t) => {
+    const configProvider = new JSONfileProvider(jsConfigFilePath + 'non_existing_path');
+
+    t.throws(() => { 
+        configProvider.init()
+    });
+
+});
