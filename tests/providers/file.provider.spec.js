@@ -29,3 +29,20 @@ test('should import config from file and convert string to number', async (t) =>
         secret: 44
     }, config);
 });
+
+test('should read filename from env', async (t) => {
+    process.env.FILE_PATH = path.resolve(__dirname, '../mocks/docker.secret');
+
+    const configProvider = new FileProvider({
+        secret: 'FILE_PATH'
+    }, {
+        fromEnv: true
+    });
+    
+    await configProvider.init();
+    const config = await configProvider.load();
+
+    t.deepEqual({
+        secret: 'password'
+    }, config);
+});
