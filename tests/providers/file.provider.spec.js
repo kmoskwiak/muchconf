@@ -1,0 +1,31 @@
+const test = require('ava');
+const path = require('path');
+const FileProvider = require('../../lib/providers/file.provider');
+
+test('should import config form file', async (t) => {
+    const configProvider = new FileProvider({
+        secret: path.resolve(__dirname, '../mocks/docker.secret')
+    });
+
+    await configProvider.init();
+    const config = await configProvider.load();
+
+    t.deepEqual({
+        secret: 'password'
+    }, config);
+});
+
+test('should import config from file and convert string to number', async (t) => {
+    const configProvider = new FileProvider({
+        secret: path.resolve(__dirname, '../mocks/docker.secret2')
+    }, {
+        castNumbers: true
+    });
+
+    await configProvider.init();
+    const config = await configProvider.load();
+
+    t.deepEqual({
+        secret: 44
+    }, config);
+});

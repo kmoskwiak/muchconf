@@ -14,7 +14,7 @@ test('should import env variables', async (t) => {
     let envConfig = new EnvProvider({
         mongoUri: '_test_mongoUri'
     });
-
+    await envConfig.init();
     let config = await envConfig.load();
 
     t.deepEqual(config, {
@@ -26,7 +26,7 @@ test('should import number as a number', async (t) => {
     let envConfig = new EnvProvider({
         number: '_test_number'
     });
-
+    await envConfig.init();
     let config = await envConfig.load();
 
     t.deepEqual(config, {
@@ -44,7 +44,7 @@ test('should import env variables into deep object', async (t) => {
             }
         }
     });
-
+    await envConfig.init();
     let config = await envConfig.load();
 
     t.deepEqual(config, {
@@ -64,7 +64,7 @@ test('should import env variables into array', async (t) => {
             number: '_test_number'
         }]
     });
-
+    await envConfig.init();
     let config = await envConfig.load();
 
     t.deepEqual(config, {

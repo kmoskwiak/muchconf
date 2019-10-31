@@ -1,7 +1,7 @@
 const test = require('ava');
 const map = require('../../lib/utils/map');
 
-test('should fill object accoring to map', (t) => {
+test('should fill object accoring to map', async (t) => {
     let config = {};
 
     const source = {
@@ -10,7 +10,7 @@ test('should fill object accoring to map', (t) => {
         c: 3
     };
 
-    map(config, {
+    await map(config, {
         a: 'a',
         b: 'b',
         c: 'a',
