@@ -167,7 +167,7 @@ test('should load and merge configuration from json providers and omit configura
     });
 });
 
-test('should load and merge configuration from wrapped json providers and omit configuration if condition not met', async (t) => {
+test('should load and merge configuration from wrapped json providers and omit configuration if condition not met (is)', async (t) => {
     const configStore = muchconf([
         muchJson({
             name: 'config_1',
@@ -203,7 +203,7 @@ test('should load and merge configuration from wrapped json providers and omit c
 
 
 
-test('should load and merge configuration from json providers and omit configuration if condition not met', async (t) => {
+test('should load and merge configuration from json providers and omit configuration if condition not met (not)', async (t) => {
     const configStore = muchconf([
         new JsonProvider({
             name: 'config_1',

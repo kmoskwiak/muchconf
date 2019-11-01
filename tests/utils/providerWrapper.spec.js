@@ -18,9 +18,3 @@ test('should call constructor with arguments', async (t) => {
     let wrapped = myWrapper(1,2,3);
     t.deepEqual([1,2,3], wrapped.abc());
 });
-
-test('should call constructor with arguments', async (t) => {
-    const myWrapper = wrapper(MyClass);
-    let wrapped = myWrapper(1,2);
-    t.deepEqual([1,2, undefined], wrapped.abc());
-});

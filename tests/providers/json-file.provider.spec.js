@@ -22,7 +22,7 @@ test('should import config form json file', async (t) => {
     });
 });
 
-test('should import config form json file', async (t) => {
+test('should import config form js file', async (t) => {
     const configProvider = new JSONfileProvider(jsConfigFilePath);
 
     configProvider.init();

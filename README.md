@@ -19,6 +19,7 @@
     5.2. [ArgvProvider](#argvprovider)  
     5.3. [JsonProvider](#jsonprovider)  
     5.4. [JsonFileProvider](#jsonfileprovider)
+    5.5. [FileProvider](#fileprovider)
 6. [External providers](#external-providers)
 7. [Writing custom provider](#writing-custom-provider)
 8. [Examples](#examples)
@@ -553,6 +554,50 @@ const { muchconf, muchJsonFile } = require('muchconf');
 
 const configStore = muchconf([
     muchJsonFile('/app/config/configuration.json')
+]);
+```
+#### FileProvider
+FileProvider reads single values from text file.
+
+__Syntax:__
+```js
+new FileProvider(filePath, providerOptions)
+```
+or
+```js
+muchFile(filePath, providerOptions)
+```
+__Parameters:__
+
+| name                 | type     | required  | default | description         |
+|----------------------|----------|-----------|---------|---------------------|
+| `filePath`           | `string` | yes       |         | path to file with configuration |
+| `providerOptions`    | `object` | no        |         | common options for provider. See [Provider](#class-provider) section |
+| `providerOptions.fromEnv` | `boolean` | no | `false` | is filename provided in environmental variable |
+
+__Example:__
+```js
+const { muchconf, muchFile } = require('muchconf');
+
+const configStore = muchconf([
+    muchFile({
+        password: '/run/secrets/password'
+    })
+]);
+```
+
+File path can be passed in environmental variable. It is especially useful when working with docker secrets.
+
+__Example:__
+```js
+const { muchconf, muchFile } = require('muchconf');
+
+const configStore = muchconf([
+    muchFile({
+        password: 'PATH_TO_FILE_IN_ENV'
+    }, {
+        fromEnv: true
+    })
 ]);
 ```
 
