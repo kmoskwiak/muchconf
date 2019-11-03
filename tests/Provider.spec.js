@@ -43,3 +43,21 @@ test('should cut quotations if option enabled', (t) => {
     t.is('value', provider.parse('"value"'));
     t.is('value', provider.parse('value'));
 });
+
+test('should trim string by default', (t) => {
+    const provider = new Provider();
+
+    t.is('value', provider.parse('value\n'));
+    t.is('value', provider.parse('value  '));
+    t.is('value', provider.parse(' value  '));
+});
+
+test('should not trim string if option is disabled', (t) => {
+    const provider = new Provider({
+        trim: false
+    });
+
+    t.is('value\n', provider.parse('value\n'));
+    t.is('value  ', provider.parse('value  '));
+    t.is(' value  ', provider.parse(' value  '));
+});

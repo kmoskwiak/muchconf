@@ -304,6 +304,7 @@ __Parameters:__
 | `options.castNumbers` | boolean | no | false | if possible, strings will be converted to number, e.g. '2' will be 2 |
 | `options.convertTrueFalseStrings` | boolean | no | false | strings like 'true' or 'false' will be converted to boolean |
 | `options.cutQuotations` | boolean | no | false | double quotation marks form beginning and ending of string will be cut off. E.g. '"some value"' will be 'some value' |
+| `options.trim` | boolean | no | true | trims whitespace from strings |
 | `options.not` | object | no | undefined | conditions when provider should not be used |
 | `options.is` | object | no  | undefined | conditions when provider should be used     |
 
@@ -368,6 +369,22 @@ If possible trims quotation marks from string.
 __Syntax:__
 ```js
 provider.cutQuotations(value);
+```
+__Parameters:__
+
+| name         | type     | required  | default | description         |
+|--------------|----------|-----------|---------|---------------------|
+| value        | `string` | yes       |         | value to convert    |
+
+_Returns:_  
+Parsed value if it was possible in other case original one.
+
+#### `trim`
+If possible trims whitespace from string.
+
+__Syntax:__
+```js
+provider.trim(value);
 ```
 __Parameters:__
 
