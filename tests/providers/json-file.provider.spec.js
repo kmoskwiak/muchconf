@@ -37,3 +37,12 @@ test('should import config form js file', async (t) => {
         number: 44
     });
 });
+
+test('should not import config if filepath is not provided', async (t) => {
+    const configProvider = new JSONfileProvider();
+
+    configProvider.init();
+    const config = await configProvider.load();
+
+    t.deepEqual(config, {});
+});
