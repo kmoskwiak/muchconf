@@ -1,9 +1,9 @@
 const test = require('ava');
 const path = require('path');
-const FileProvider = require('../../lib/providers/file.provider');
+const { muchFile } = require('../../lib/providers/file.provider');
 
 test('should import config form file', async (t) => {
-    const configProvider = new FileProvider({
+    const configProvider = muchFile({
         secret: path.resolve(__dirname, '../mocks/docker.secret')
     });
 
@@ -16,7 +16,7 @@ test('should import config form file', async (t) => {
 });
 
 test('should import config form file and trim whitespace', async (t) => {
-    const configProvider = new FileProvider({
+    const configProvider = muchFile({
         secret: path.resolve(__dirname, '../mocks/docker.secret3')
     });
 
@@ -29,7 +29,7 @@ test('should import config form file and trim whitespace', async (t) => {
 });
 
 test('should import config from file and convert string to number', async (t) => {
-    const configProvider = new FileProvider({
+    const configProvider = muchFile({
         secret: path.resolve(__dirname, '../mocks/docker.secret2')
     }, {
         castNumbers: true
@@ -46,7 +46,7 @@ test('should import config from file and convert string to number', async (t) =>
 test('should read filename from env', async (t) => {
     process.env.FILE_PATH = path.resolve(__dirname, '../mocks/docker.secret');
 
-    const configProvider = new FileProvider({
+    const configProvider = muchFile({
         secret: 'FILE_PATH'
     }, {
         fromEnv: true

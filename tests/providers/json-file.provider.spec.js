@@ -1,12 +1,12 @@
 const test = require('ava');
-const JSONfileProvider = require('../../lib/providers/json-file.provider');
+const { muchJsonFile } = require('../../lib/providers/json-file.provider');
 const path = require('path');
 
 const jsonConfigFilePath = path.resolve(__dirname, '../mocks/config.json');
 const jsConfigFilePath = path.resolve(__dirname, '../mocks/config.js');
 
 test('should import config form json file', async (t) => {
-    const configProvider = new JSONfileProvider(jsonConfigFilePath);
+    const configProvider = muchJsonFile(jsonConfigFilePath);
     
     configProvider.init();
     const config = await configProvider.load();
@@ -23,7 +23,7 @@ test('should import config form json file', async (t) => {
 });
 
 test('should import config form js file', async (t) => {
-    const configProvider = new JSONfileProvider(jsConfigFilePath);
+    const configProvider = muchJsonFile(jsConfigFilePath);
 
     configProvider.init();
     const config = await configProvider.load();
@@ -39,7 +39,7 @@ test('should import config form js file', async (t) => {
 });
 
 test('should not import config if filepath is not provided', async (t) => {
-    const configProvider = new JSONfileProvider();
+    const configProvider = muchJsonFile();
 
     configProvider.init();
     const config = await configProvider.load();

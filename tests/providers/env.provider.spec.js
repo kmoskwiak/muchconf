@@ -1,5 +1,5 @@
 const test = require('ava');
-const EnvProvider = require('../../lib/providers/env.provider');
+const { muchEnv } = require('../../lib/providers/env.provider');
 
 test.before((t) => {
     // Set ENV variables
@@ -11,7 +11,7 @@ test.before((t) => {
 });
 
 test('should import env variables', async (t) => {
-    let envConfig = new EnvProvider({
+    let envConfig = muchEnv({
         mongoUri: '_test_mongoUri'
     });
     await envConfig.init();
@@ -23,7 +23,7 @@ test('should import env variables', async (t) => {
 });
 
 test('should import number as a number', async (t) => {
-    let envConfig = new EnvProvider({
+    let envConfig = muchEnv({
         number: '_test_number'
     });
     await envConfig.init();
@@ -35,7 +35,7 @@ test('should import number as a number', async (t) => {
 });
 
 test('should import env variables into deep object', async (t) => {
-    let envConfig = new EnvProvider({
+    let envConfig = muchEnv({
         mongo: {
             uri: '_test_mongoUri',
             secret: '_test_mongoSecret',
@@ -59,7 +59,7 @@ test('should import env variables into deep object', async (t) => {
 });
 
 test('should import env variables into array', async (t) => {
-    let envConfig = new EnvProvider({
+    let envConfig = muchEnv({
         mongo: ['_test_mongoUri', '_test_mongoSecret', {
             number: '_test_number'
         }]

@@ -1,6 +1,6 @@
 {
   "name": "muchconf",
-  "version": "3.3.0",
+  "version": "4.0.0",
   "description": "Configuration for services",
   "main": "index.js",
   "homepage": "https://github.com/kmoskwiak/muchconf",
@@ -32,6 +32,6 @@
   "author": "Kasper Moskwiak <kasper.moskwiak@gmail.com> (https://kspr.pl)",
   "license": "ISC",
   "devDependencies": {
-    "ava": "^2.4.0"
+    "ava": "^3.7.0"
   }
 }

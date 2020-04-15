@@ -1,8 +1,8 @@
 const test = require('ava');
-const ArgvProvider = require('../../lib/providers/argv.provider');
+const { muchArgv } = require('../../lib/providers/argv.provider');
 
 test('should map and import config', async(t) => {
-    const argvProvider = new ArgvProvider({
+    const argvProvider = muchArgv({
         mongoUri: 'mongo-uri'
     });
 

@@ -2,11 +2,7 @@ const test = require('ava');
 const path = require('path');
 const UpdatingProvider = require('./mocks/updating-provider.mock');
 const {
-    muchconf, 
-    ArgvProvider,
-    EnvProvidder,
-    JsonFileProvider,
-    JsonProvider,
+    muchconf,
     muchJson,
     muchJsonFile
 } = require('../index');
@@ -26,7 +22,7 @@ test('should return different instances of store', async (t) => {
 
 test('should load configuration from json provider', async (t) => {
     const configStore = muchconf([
-        new JsonProvider({
+        muchJson({
             name: 'test',
             p1: 1,
             p2: 2,
@@ -67,11 +63,11 @@ test('should load configuration from json provider using wrapper', async (t) => 
 
 test('should merge configuration form sources but not overwrite with null or undefined', async (t) => {
     const configStore = muchconf([
-        new JsonProvider({
+        muchJson({
             a: 1,
             b: 2
         }),
-        new JsonProvider({
+        muchJson({
             a: null,
             b: undefined
         })
@@ -87,11 +83,11 @@ test('should merge configuration form sources but not overwrite with null or und
 
 test('should merge configuration form sources and overwrite with null or undefined', async (t) => {
     const configStore = muchconf([
-        new JsonProvider({
+        muchJson({
             a: 1,
             b: 2
         }),
-        new JsonProvider({
+        muchJson({
             a: null,
             b: undefined
         })
@@ -110,13 +106,13 @@ test('should merge configuration form sources and overwrite with null or undefin
 
 test('should load and merge configuration from json providers', async (t) => {
     const configStore = muchconf([
-        new JsonProvider({
+        muchJson({
             name: 'config_1',
             p1: 1,
             p2: 2,
             p3: [1,2,3]
         }),
-        new JsonProvider({
+        muchJson({
             name: 'config_2',
             p2: 3,
             p3: [5,6]
@@ -133,20 +129,54 @@ test('should load and merge configuration from json providers', async (t) => {
     });
 });
 
+test('should load and merge configuration with deep object merging', async (t) => {
+    const configStore = muchconf([
+        muchJson({
+            name: 'config_1',
+            p1: {
+                name: 'name of app',
+                version: 'v0.1'
+            },
+            p2: 2,
+            p3: [1,2,3]
+        }),
+        muchJson({
+            name: 'config_2',
+            p1: {
+                version: 'v0.2'
+            },
+            p2: 3,
+            p3: [5,6]
+        })
+    ], { instance: Symbol() });
+
+    let config = await configStore.load();
+
+    t.deepEqual(config, {
+        name: 'config_2',
+        p1: {
+            name: 'name of app',
+            version: 'v0.2'
+        },
+        p2: 3,
+        p3: [5,6]
+    });
+});
+
 test('should load and merge configuration from json providers and omit configuration if condition not met', async (t) => {
     const configStore = muchconf([
-        new JsonProvider({
+        muchJson({
             name: 'config_1',
             p1: 1,
             p2: 2,
             p3: [1,2,3]
         }),
-        new JsonProvider({
+        muchJson({
             name: 'config_2',
             p2: 3,
             p3: [5,6]
         }),
-        new JsonProvider({
+        muchJson({
             name: 'config_3',
             p2: 5,
             p3: [5,6]
@@ -205,18 +235,18 @@ test('should load and merge configuration from wrapped json providers and omit c
 
 test('should load and merge configuration from json providers and omit configuration if condition not met (not)', async (t) => {
     const configStore = muchconf([
-        new JsonProvider({
+        muchJson({
             name: 'config_1',
             p1: 1,
             p2: 2,
             p3: [1,2,3]
         }),
-        new JsonProvider({
+        muchJson({
             name: 'config_2',
             p2: 3,
             p3: [5,6]
         }),
-        new JsonProvider({
+        muchJson({
             name: 'config_3',
             p2: 5,
             p3: [5,6]
@@ -273,10 +303,10 @@ test('should realod configuration if provider updates', async (t) => {
 test('should run provider with options passed in configuration', async (t) => {
     const jsonConfigFilePath = path.resolve(__dirname, './mocks/config.json');
     const configStore = muchconf([
-        new JsonProvider({
+        muchJson({
             filePath: jsonConfigFilePath
         }),
-        new JsonFileProvider(
+        muchJsonFile(
             config => config.filePath
         )
     ], {instance: Symbol()});
