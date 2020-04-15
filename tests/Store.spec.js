@@ -133,6 +133,40 @@ test('should load and merge configuration from json providers', async (t) => {
     });
 });
 
+test('should load and merge configuration with deep object merging', async (t) => {
+    const configStore = muchconf([
+        new JsonProvider({
+            name: 'config_1',
+            p1: {
+                name: 'name of app',
+                version: 'v0.1'
+            },
+            p2: 2,
+            p3: [1,2,3]
+        }),
+        new JsonProvider({
+            name: 'config_2',
+            p1: {
+                version: 'v0.2'
+            },
+            p2: 3,
+            p3: [5,6]
+        })
+    ], { instance: Symbol() });
+
+    let config = await configStore.load();
+
+    t.deepEqual(config, {
+        name: 'config_2',
+        p1: {
+            name: 'name of app',
+            version: 'v0.2'
+        },
+        p2: 3,
+        p3: [5,6]
+    });
+});
+
 test('should load and merge configuration from json providers and omit configuration if condition not met', async (t) => {
     const configStore = muchconf([
         new JsonProvider({
