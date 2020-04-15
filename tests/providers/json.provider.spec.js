@@ -1,8 +1,8 @@
 const test = require('ava');
-const JSONprovider = require('../../lib/providers/json.provider');
+const { muchJson } = require('../../lib/providers/json.provider');
 
 test('should return json configuration', async (t) => {
-    const jsonProvider = new JSONprovider({
+    const jsonProvider = muchJson({
         mongoUri: 'mongo://localhost',
         user: {
             name: 'Finn',

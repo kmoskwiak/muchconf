@@ -15,11 +15,11 @@
 3. [muchconf()](#muchconf-1)
 4. [Class: Provider](#class-provider)  
 5. [Built-in providers (configuration sources)](#built-in-providers-configuration-sources)
-    5.1. [EnvProvider](#envprovider)  
-    5.2. [ArgvProvider](#argvprovider)  
-    5.3. [JsonProvider](#jsonprovider)  
-    5.4. [JsonFileProvider](#jsonfileprovider)
-    5.5. [FileProvider](#fileprovider)
+    5.1. [muchEnv](#muchenv)  
+    5.2. [muchArgv](#muchargv)  
+    5.3. [muchJson](#muchjson)  
+    5.4. [muchJsonFile](#muchjsonfile)  
+    5.5. [muchFile](#muchfile)
 6. [External providers](#external-providers)
 7. [Writing custom provider](#writing-custom-provider)
 8. [Examples](#examples)
@@ -409,19 +409,16 @@ Promise which resolves to configuration object.
 Provider represents source of configuration. Muchconf has four built-in providers and supports external providers. Out of the box muchconf can get configuration form environmental variables, command line arguments, JSON or JSON file.
 
 __Built-in providers:__
-1. [EnvProvider](#envprovider) - environmental variables  
-2. [ArgvProvider](#argvprovider) - command line arguments  
-3. [JsonProvider](#jsonprovider) - JSON (or javascript object)  
-4. [JsonFileProvider](#jsonfileprovider) - JSON file  
+1. [muchEnv](#muchenv) - environmental variables  
+2. [muchArgv](#argvprovider) - command line arguments  
+3. [muchJson](#jsonprovider) - JSON (or javascript object)  
+4. [muchJsonFile](#jsonfileprovider) - JSON file 
+5. [muchFile](#fileprovider) - configuration values from single file
 
-### EnvProvider
-EnvProvider gets configuration form environmental variables in OS.
+### muchEnv
+muchEnv gets configuration form environmental variables in OS.
 
 __Syntax:__
-```js
-new EnvProvider(configurationMap, providerOptions)
-```
-or
 ```js
 muchEnv(configurationMap, providerOptions)
 ```
@@ -462,14 +459,11 @@ EnvProvider will map environmental variables to configuration keys. Final config
         apiEndpoints: ['https://main.api.example', 'https://backup.api.example']
     }
 ```
-#### ArgvProvider
-ArgvProvider gets configuration from command line arguments in format `--name-of-option <value>`.
+#### muchArgv
+muchArgv gets configuration from command line arguments in format `--name-of-option <value>`.
 
 __Syntax:__
-```js
-new ArgvProvider(configurationMap, providerOptions)
-```
-or
+
 ```js
 muchArgv(configurationMap, providerOptions)
 ```
@@ -512,14 +506,11 @@ It will result with configuration:
     }
 ```
 
-#### JsonProvider
-JsonProvider accepts JSON or JS object as configuration
+#### muchJson
+muchJson accepts JSON or JS object as configuration
 
 __Syntax:__
-```js
-new JsonProvider(json, providerOptions)
-```
-or
+
 ```js
 muchJson(json, providerOptions)
 ```
@@ -547,16 +538,14 @@ const configStore = muchconf([
 ]);
 ```
 
-#### JsonFileProvider
-JsonFileProvider imports JSON or JS file with configuration. 
+#### muchJsonFile
+muchJsonFile imports JSON or JS file with configuration. 
 
 __Syntax:__
-```js
-new JsonFileProvider(filePath, providerOptions)
-```
+
 or
 ```js
-muchJsonFile(filePath, providerOptions)
+muchJsonFile(configurationMap, providerOptions)
 ```
 __Parameters:__
 
@@ -573,22 +562,19 @@ const configStore = muchconf([
     muchJsonFile('/app/config/configuration.json')
 ]);
 ```
-#### FileProvider
-FileProvider reads single values from text file.
+#### muchFile
+muchFile reads single values from text file.
 
 __Syntax:__
+
 ```js
-new FileProvider(filePath, providerOptions)
-```
-or
-```js
-muchFile(filePath, providerOptions)
+muchFile(configurationMap, providerOptions)
 ```
 __Parameters:__
 
 | name                 | type     | required  | default | description         |
 |----------------------|----------|-----------|---------|---------------------|
-| `filePath`           | `string` | yes       |         | path to file with configuration |
+| `configurationMap`   | `object` | yes       |         | object representing configuration. Values should be filepaths or name of ENV variable containing filepath |
 | `providerOptions`    | `object` | no        |         | common options for provider. See [Provider](#class-provider) section |
 | `providerOptions.fromEnv` | `boolean` | no | `false` | is filename provided in environmental variable |
 
