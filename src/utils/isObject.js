@@ -1,4 +1,4 @@
 module.exports = function isObject(value) {
-    var type = typeof value;
+    const type = typeof value;
     return type === 'object' && !!value && !Array.isArray(value);
-};
+}

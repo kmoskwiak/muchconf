@@ -1,0 +1,10 @@
+{
+    "compilerOptions": {
+        "module": "commonjs",
+        "allowJs": true,
+        "noImplicitAny": false,
+        "checkJs": true,
+        "outDir": "lib"
+    },
+    "include": ["src"]
+}

@@ -16,6 +16,7 @@
     "email": "kasper.moskwiak@gmail.com"
   },
   "scripts": {
+    "build": "tsc",
     "test": "ava ./tests/*.spec.js ./tests/**/*.spec.js --verbose"
   },
   "keywords": [
@@ -32,6 +33,7 @@
   "author": "Kasper Moskwiak <kasper.moskwiak@gmail.com> (https://kspr.pl)",
   "license": "ISC",
   "devDependencies": {
-    "ava": "^3.7.0"
+    "ava": "^3.7.0",
+    "typescript": "^3.8.3"
   }
 }
