@@ -1,9 +1,9 @@
-const events = require('events');
+import { EventEmitter } from 'events';
 let mainInstanceSymbol = null;
 const instances = {};
 const isObject = require('./utils/isObject');
 
-class Muchconf extends events.EventEmitter {
+class Muchconf extends EventEmitter {
     /**
      * Creates configuration store
      * @param {Provider[]} [providers=[]]

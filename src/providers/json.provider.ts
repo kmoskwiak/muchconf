@@ -1,7 +1,11 @@
-const Provider = require('../Provider');
+import Provider, { IProviderOptions } from '../Provider';
+
 
 class JSONprovider extends Provider {
-    constructor(config, options) {
+
+    config: IProviderOptions = {};
+
+    constructor(config, options: IProviderOptions) {
         super(options);
         this.config = config;
     }
@@ -22,7 +26,7 @@ class JSONprovider extends Provider {
  * @param {Object} [options.not] conditions to not use provider
  * @param {Object} [options.is] condtions to use provider
  */
-function muchJson(config, options) {
+function muchJson(config, options: IProviderOptions) {
     return new JSONprovider(config, options);
 }
 

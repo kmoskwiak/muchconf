@@ -5,7 +5,7 @@ const {
     muchconf,
     muchJson,
     muchJsonFile
-} = require('../index');
+} = require('../lib/index');
 
 test('should return always the same instance', async (t) => {
     const configStore_1 = muchconf();

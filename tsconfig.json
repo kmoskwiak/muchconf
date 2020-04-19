@@ -4,7 +4,8 @@
         "allowJs": true,
         "noImplicitAny": false,
         "checkJs": true,
-        "outDir": "lib"
+        "outDir": "lib",
+        "target": "ES2017"
     },
     "include": ["src"]
 }

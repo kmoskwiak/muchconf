@@ -1,5 +1,5 @@
 const test = require('ava');
-const Provider = require('../lib/Provider');
+const Provider = require('../lib/Provider').default;
 
 test('should not convert strings by default', (t) => {
     const provider = new Provider();

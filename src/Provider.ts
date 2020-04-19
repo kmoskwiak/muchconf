@@ -1,26 +1,30 @@
-const events = require('events');
+import { EventEmitter } from 'events';
 const deepExistsAndEquals = require('./utils/deepExistsAndEquals');
 
-class Provider extends events.EventEmitter {
-    /**
-     * Creates Provider instance
-     * @param {Object} [options] common Provider options
-     * @param {Boolean} [options.castNumber=false] should strings be converted to number
-     * @param {Boolean} [options.converTrueFalseString=false] should true/false strings be converted to boolean
-     * @param {Boolean} [options.cutQuotations=false] should trim quotations form strings
-     * @param {Boolean} [options.trim=true] trim whitespace from strings
-     * @param {Object} [options.not] conditions to not use provider
-     * @param {Object} [options.is] condtions to use provider
-     */
+export interface IProviderOptions {
+    castNumbers?: boolean;
+    converTrueFalseStrings?: boolean;
+    cutQuotations?: boolean;
+    trim?: boolean;
+    not?: object;
+    is?: object;
+}
+
+class Provider extends EventEmitter {
+
+    defaults: IProviderOptions = {
+        castNumbers: false,
+        converTrueFalseStrings: false,
+        cutQuotations: false,
+        trim: true
+    };
+
+    options: IProviderOptions = {};
+
+    watch = false;
+
     constructor(options) {
         super();
-        this.defaults = {
-           castNumbers: false,
-           converTrueFalseStrings: false,
-           cutQuotations: false,
-           trim: true
-        };
-        this.watch = false;
         this.setOptions(options);
     }
 
@@ -164,4 +168,4 @@ class Provider extends events.EventEmitter {
     }
 }
 
-module.exports = Provider;
+export default Provider;

@@ -1,6 +1,7 @@
-const Provider = require('../Provider');
 const map = require('../utils/map');
 const parseArgv = require('../utils/parse-argv');
+
+import Provider, { IProviderOptions } from '../Provider';
 
 class ArgvProvider extends Provider {
     constructor(configMap, options) {

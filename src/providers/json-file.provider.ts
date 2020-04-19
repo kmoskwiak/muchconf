@@ -1,4 +1,4 @@
-const Provider = require('../Provider');
+import Provider, { IProviderOptions } from '../Provider';
 
 class JSONfileProvider extends Provider {
     constructor(filePath, options) {

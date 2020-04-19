@@ -1,5 +1,5 @@
 const fs = require('fs');
-const Provider = require('../Provider');
+import Provider, { IProviderOptions } from '../Provider';
 const map = require('../utils/map');
 
 class FileProvider extends Provider {

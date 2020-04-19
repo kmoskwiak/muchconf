@@ -1,4 +1,4 @@
-const Provider = require('../../lib/Provider');
+const Provider = require('../../lib/Provider').default;
 
 class UpdatingProvider extends Provider {
     constructor(options) {
