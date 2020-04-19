@@ -1,9 +1,24 @@
 import { EventEmitter } from 'events';
+import Provider, { IProviderOptions } from './Provider';
 let mainInstanceSymbol = null;
 const instances = {};
 const isObject = require('./utils/isObject');
 
+interface IStoreOptions {
+    instance?: string;
+    allowNullOrUndefined?: boolean;
+}
+
 class Muchconf extends EventEmitter {
+
+    symbol: any;
+    config: object;
+    rawConfig: object[];
+    options: IStoreOptions;
+    providers: any[];
+    emittedEvents: object;
+    configResolver: any;
+
     /**
      * Creates configuration store
      * @param {Provider[]} [providers=[]]
@@ -11,7 +26,7 @@ class Muchconf extends EventEmitter {
      * @param {Symbol | String} [options.instance=Symbol()]
      * @param {Boolean} [options.allowNullOrUndefined=false]
      */
-    constructor(providers = [], options = {}) {
+    constructor (providers: Provider[] | IStoreOptions = [], options: IStoreOptions = {}) {
         if(!Array.isArray(providers)) {
             options = providers
             providers = [];
@@ -183,13 +198,26 @@ class Muchconf extends EventEmitter {
 /**
  * Create or return instance of Muchconf
  * @param {Provider[]} [providers=[]]
- * @param {Object} [options]
- * @param {Symbol | String} [options.instance=Symbol()]
- * @param {Boolean} [options.allowNullOrUndefined=false]
+ * @param {object} [options]
+ * @param {symbol | string} [options.instance=Symbol()]
+ * @param {boolean} [options.allowNullOrUndefined=false]
  * @returns Muchconf instace
  */
-function muchconf(providers, options) {
+function muchconf(providers: Provider[], options: IStoreOptions): Muchconf;
+
+/**
+ * Create or return instance of Muchconf
+ * @param {object} [options]
+ * @param {symbol | string} [options.instance=Symbol()]
+ * @param {boolean} [options.allowNullOrUndefined=false]
+ * @returns Muchconf instace
+ */
+function muchconf(options: IStoreOptions): Muchconf;
+
+
+function muchconf(providers?, options?) {
     return new Muchconf(providers, options);
 }
+
 
 module.exports = muchconf;

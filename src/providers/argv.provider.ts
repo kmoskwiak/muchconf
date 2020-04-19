@@ -4,8 +4,12 @@ const parseArgv = require('../utils/parse-argv');
 import Provider, { IProviderOptions } from '../Provider';
 
 class ArgvProvider extends Provider {
+
+    configMap: object = {};
+    config: object = {};
+
     constructor(configMap, options) {
-        super();
+        super(options);
         let defaultOptions = {
             converTrueFalseStrings: true,
             castNumbers: true,

@@ -2,8 +2,12 @@ import Provider, { IProviderOptions } from '../Provider';
 const map = require('../utils/map');
 
 class EnvProvider extends Provider {
+
+    configMap: object = {};
+    config: object = {};
+
     constructor(configMap, options) {
-        super();
+        super(options);
         let defaultOptions = {
             converTrueFalseStrings: true,
             castNumbers: true

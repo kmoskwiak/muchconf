@@ -1,15 +1,18 @@
 import Provider, { IProviderOptions } from '../Provider';
 
 class JSONfileProvider extends Provider {
+
+    filePath: string = '';
+    config: object = {};
+
     constructor(filePath, options) {
         super(options);
         this.filePath = filePath;
-        this.config = {};
     }
 
     init(currentconfig) {
         const filePath = this.setOption(this.filePath, currentconfig);
-        return this.readFile(filePath);
+        return Promise.resolve(this.readFile(filePath));
     }
 
     readFile(filePath) {

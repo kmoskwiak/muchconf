@@ -1,6 +1,5 @@
 import Provider, { IProviderOptions } from '../Provider';
 
-
 class JSONprovider extends Provider {
 
     config: IProviderOptions = {};

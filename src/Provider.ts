@@ -8,6 +8,7 @@ export interface IProviderOptions {
     trim?: boolean;
     not?: object;
     is?: object;
+    [k: string]: any
 }
 
 class Provider extends EventEmitter {
@@ -31,7 +32,7 @@ class Provider extends EventEmitter {
     /**
      * Init provider
      */
-    init() {
+    init(currentConfig: object): Promise<void> {
         return Promise.resolve();
     }
 

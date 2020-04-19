@@ -2,9 +2,18 @@ const fs = require('fs');
 import Provider, { IProviderOptions } from '../Provider';
 const map = require('../utils/map');
 
+interface IFileProviderOptions extends IProviderOptions {
+    fromEnv?: boolean
+}
+
 class FileProvider extends Provider {
-    constructor(configMap, options) {
-        super();
+
+    configMap: object = {};
+    config: object = {};
+    options: IFileProviderOptions = {};
+
+    constructor(configMap, options: IFileProviderOptions) {
+        super(options);
         let defaultOptions = {
             fromEnv: false
         };
