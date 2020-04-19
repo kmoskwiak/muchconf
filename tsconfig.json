@@ -2,7 +2,7 @@
     "compilerOptions": {
         "module": "commonjs",
         "allowJs": true,
-        "noImplicitAny": false,
+        "noImplicitAny": true,
         "checkJs": true,
         "outDir": "lib",
         "target": "ES2017"

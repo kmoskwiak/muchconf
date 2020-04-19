@@ -6,7 +6,7 @@ class EnvProvider extends Provider {
     configMap: object = {};
     config: object = {};
 
-    constructor(configMap, options) {
+    constructor(configMap: object, options: IProviderOptions) {
         super(options);
         let defaultOptions = {
             converTrueFalseStrings: true,
@@ -22,7 +22,7 @@ class EnvProvider extends Provider {
     }
 
     async readEnv() {
-        await map(this.config, this.configMap, (envName) => {
+        await map(this.config, this.configMap, (envName: string) => {
             let value = this.parse(process.env[envName]);
             return value;
         });
@@ -44,7 +44,7 @@ class EnvProvider extends Provider {
  * @param {Object} [options.not] conditions to not use provider
  * @param {Object} [options.is] condtions to use provider
  */
-function muchEnv(configMap, options) {
+function muchEnv(configMap: object, options: IProviderOptions) {
     return new EnvProvider(configMap, options);
 }
 

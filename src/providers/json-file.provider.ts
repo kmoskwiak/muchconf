@@ -2,20 +2,20 @@ import Provider, { IProviderOptions } from '../Provider';
 
 class JSONfileProvider extends Provider {
 
-    filePath: string = '';
+    filePath: string | Function = '';
     config: object = {};
 
-    constructor(filePath, options) {
+    constructor(filePath: string | Function, options: IProviderOptions) {
         super(options);
         this.filePath = filePath;
     }
 
-    init(currentconfig) {
+    init(currentconfig: object) {
         const filePath = this.setOption(this.filePath, currentconfig);
         return Promise.resolve(this.readFile(filePath));
     }
 
-    readFile(filePath) {
+    readFile(filePath: string) {
         if(!filePath) { return; }
         this.config = require(filePath);
     }
@@ -36,7 +36,7 @@ class JSONfileProvider extends Provider {
  * @param {Object} [options.not] conditions to not use provider
  * @param {Object} [options.is] condtions to use provider
  */
-function muchJsonFile(filePath, options) {
+function muchJsonFile(filePath: string | Function, options: IProviderOptions) {
     return new JSONfileProvider(filePath, options);
 }
 

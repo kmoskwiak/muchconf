@@ -1,5 +1,7 @@
-function parseArgv(args) {
-    let config = {};
+function parseArgv(args: string[]) {
+    let config: {
+        [k: string]: string
+    } = {};
 
     for(let i in args) {
         if(args[i].startsWith('--')) {
@@ -14,4 +16,4 @@ function parseArgv(args) {
     return config;
 }
 
-module.exports = parseArgv;
+export default parseArgv;

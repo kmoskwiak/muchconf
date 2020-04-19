@@ -24,7 +24,7 @@ class Provider extends EventEmitter {
 
     watch = false;
 
-    constructor(options) {
+    constructor(options: IProviderOptions) {
         super();
         this.setOptions(options);
     }
@@ -42,7 +42,7 @@ class Provider extends EventEmitter {
      * @param {Object} currentConfig current configuration
      * @returns value of option
      */
-    setOption(option, currentConfig) {
+    setOption(option: any, currentConfig: object) {
         if(typeof option === 'function') {
             return option(currentConfig);
         }
@@ -53,7 +53,7 @@ class Provider extends EventEmitter {
      * Sets options for provider
      * @param {Object} options 
      */
-    setOptions(options) {
+    setOptions(options: IProviderOptions) {
         options = options || {};
         this.options = { ...this.defaults, ...options };
     }
@@ -77,7 +77,7 @@ class Provider extends EventEmitter {
      * Transforms value
      * @param {*} data value of configuration
      */
-    parse(data) {
+    parse(data: any) {
         if(typeof data === 'string' && this.options.trim) {
             data = this.trim(data);
         }
@@ -98,7 +98,7 @@ class Provider extends EventEmitter {
      * @param {String} data string to convert
      * @returns converted number or string if convertion was not possible
      */
-    castNumber(data) {
+    castNumber(data: string) {
         return isNaN(+data) ? data : +data;
     }
 
@@ -107,7 +107,7 @@ class Provider extends EventEmitter {
      * @param {String} data string to convert
      * @returns converted value or original one if converion was not possible
      */
-    converTrueFalseString(data) {
+    converTrueFalseString(data: string) {
         if(data.toLowerCase() === 'true') { return true; }
         if(data.toLowerCase() === 'false') { return false; }
         return data;
@@ -118,7 +118,7 @@ class Provider extends EventEmitter {
      * @param {String} data string to convert
      * @returns converted value or original one if converion was not possible
      */
-    cutQuotations(data) {
+    cutQuotations(data: string) {
         if(data[0] === '"') { data = data.slice(1); }
         if(data[data.length - 1] === '"') { data = data.slice(0, -1); }
         return data;
@@ -129,7 +129,7 @@ class Provider extends EventEmitter {
      * @param {String} data string to convert
      * @returns converted value or original one if converion was not possible
      */
-    trim(data) {
+    trim(data: string) {
         return data.trim();
     }
 
@@ -146,7 +146,7 @@ class Provider extends EventEmitter {
      * @param {Object} currentConfiguration current configuration in muchconf store
      * @returns Promise
      */
-    loadConfiguration(currentConfiguration) {
+    loadConfiguration(currentConfiguration: object) {
         let loadConfig = true;
 
         if(!this.options.is && !this.options.not) {

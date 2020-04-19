@@ -1,7 +1,7 @@
-async function map(dest, source, fn) {
+async function map(dest: any, source: any, fn: any) {
     let modifier = fn;
     if(typeof fn !== 'function') {
-        modifier = (a) => { a }; 
+        modifier = (a: any) => { a }; 
     }
 
     for(let i in source) {

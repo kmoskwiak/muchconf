@@ -1,7 +1,10 @@
 import { EventEmitter } from 'events';
 import Provider, { IProviderOptions } from './Provider';
-let mainInstanceSymbol = null;
-const instances = {};
+
+let mainInstanceSymbol: any = null;
+const instances: {
+    [k: string]: Muchconf
+} = {};
 const isObject = require('./utils/isObject');
 
 interface IStoreOptions {
@@ -16,7 +19,9 @@ class Muchconf extends EventEmitter {
     rawConfig: object[];
     options: IStoreOptions;
     providers: any[];
-    emittedEvents: object;
+    emittedEvents: {
+        [k: string]: boolean
+    };
     configResolver: any;
 
     /**
@@ -59,8 +64,8 @@ class Muchconf extends EventEmitter {
      * @param {Object} obj object to merge into configuration
      * @returns merged configuration object 
      */
-    merge(obj) {
-        let config = Object.assign({}, this.config);
+    merge(obj: any) {
+        let config: any = Object.assign({}, this.config);
         for(let key in obj) {
             if(this.options.allowNullOrUndefined) {
                 config[key] = obj[key];
@@ -82,7 +87,7 @@ class Muchconf extends EventEmitter {
      * @returns Promise
      */
     async loadConfiguration() {
-        for(let i in this.providers) {
+        for(let i = 0; i < this.providers.length; i++) {
             let provider = this.providers[i];
             await provider.init(this.config);
             let providerConfig = await provider.loadConfiguration(this.config);
@@ -106,9 +111,9 @@ class Muchconf extends EventEmitter {
      * @fires Muchconf#update
      * @fires Muchconf#loaded
      */
-    async updateConfiguration(index) {
+    async updateConfiguration(index: number) {
         let tempConfig = {};
-        for(let i in this.rawConfig) {
+        for(let i = 0; i <  this.rawConfig.length; i++) {
             if(i === index) {
                 await this.providers[i].init(tempConfig);
                 this.rawConfig[i] = await this.providers[i].loadConfiguration(tempConfig);
@@ -161,7 +166,7 @@ class Muchconf extends EventEmitter {
      * Emits event only once
      * @param {String} eventName 
      */
-    emitOnce(eventName) {
+    emitOnce(eventName: string) {
         if(!this.emittedEvents[eventName]) {
             this.emittedEvents[eventName] = true;
             this.emit(eventName);
@@ -188,7 +193,7 @@ class Muchconf extends EventEmitter {
      * Listen for provider events
      * @param {Provider} provider 
      */
-    watchProvider(provider) {
+    watchProvider(provider: Provider) {
         provider.on('loaded', async () => {
             await this.loadConfiguration()
         });
@@ -215,7 +220,7 @@ function muchconf(providers: Provider[], options: IStoreOptions): Muchconf;
 function muchconf(options: IStoreOptions): Muchconf;
 
 
-function muchconf(providers?, options?) {
+function muchconf(providers?: Provider[] | IStoreOptions, options?: IStoreOptions) {
     return new Muchconf(providers, options);
 }
 

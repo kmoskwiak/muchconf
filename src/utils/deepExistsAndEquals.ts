@@ -1,4 +1,4 @@
-function deepExistsAndEquals(conditions, data) {
+function deepExistsAndEquals(conditions: any, data: any): boolean {
     if(typeof conditions === 'function') {
         return conditions(data);
     }

@@ -12,7 +12,7 @@ class FileProvider extends Provider {
     config: object = {};
     options: IFileProviderOptions = {};
 
-    constructor(configMap, options: IFileProviderOptions) {
+    constructor(configMap: object, options: IFileProviderOptions) {
         super(options);
         let defaultOptions = {
             fromEnv: false
@@ -26,9 +26,9 @@ class FileProvider extends Provider {
         return await this.readConfig();
     }
 
-    readFile(filePath) {
+    readFile(filePath: string) {
         return new Promise((resolve, reject) => {
-            fs.readFile(filePath, { encoding: 'utf8' }, (err, data) => {
+            fs.readFile(filePath, { encoding: 'utf8' }, (err: Error, data: string) => {
                 if(err) {
                     return reject(err);
                 }
@@ -38,7 +38,7 @@ class FileProvider extends Provider {
     }
 
     async readConfig() {
-        await map(this.config, this.configMap, async (filePath) => {
+        await map(this.config, this.configMap, async (filePath: string) => {
             let value = this.options.fromEnv ? await this.readFile(process.env[filePath]) : await this.readFile(filePath);
             value = this.parse(value);
             return value;
@@ -62,7 +62,7 @@ class FileProvider extends Provider {
  * @param {Object} [options.not] conditions to not use provider
  * @param {Object} [options.is] condtions to use provider
  */
-function muchFile(configMap, options) {
+function muchFile(configMap: object, options: IProviderOptions) {
     return new FileProvider(configMap, options);
 }
 

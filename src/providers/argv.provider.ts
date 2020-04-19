@@ -1,6 +1,5 @@
 const map = require('../utils/map');
-const parseArgv = require('../utils/parse-argv');
-
+import parseArgv from '../utils/parse-argv';
 import Provider, { IProviderOptions } from '../Provider';
 
 class ArgvProvider extends Provider {
@@ -8,7 +7,7 @@ class ArgvProvider extends Provider {
     configMap: object = {};
     config: object = {};
 
-    constructor(configMap, options) {
+    constructor(configMap: object, options: IProviderOptions) {
         super(options);
         let defaultOptions = {
             converTrueFalseStrings: true,
@@ -24,9 +23,9 @@ class ArgvProvider extends Provider {
         await this.readArgv(process.argv);
     }
 
-    async readArgv(argv) {
+    async readArgv(argv: string[]) {
         let argvConfig = parseArgv(argv);
-        await map(this.config, this.configMap, (argName) => {
+        await map(this.config, this.configMap, (argName: string) => {
             let value = this.parse(argvConfig[argName]);
             return value;
         });
@@ -48,7 +47,7 @@ class ArgvProvider extends Provider {
  * @param {Object} [options.not] conditions to not use provider
  * @param {Object} [options.is] condtions to use provider
  */
-function muchArgv(configMap, options) {
+function muchArgv(configMap: object, options: IProviderOptions) {
     return new ArgvProvider(configMap, options);
 }
 

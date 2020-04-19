@@ -1,5 +1,5 @@
 const test = require('ava');
-const parseArgv = require('../../lib/utils/parse-argv');
+const parseArgv = require('../../lib/utils/parse-argv').default;
 
 const argv = [
     '/pat/to/node', 
