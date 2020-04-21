@@ -4,10 +4,11 @@ const { muchEnv } = require('../../lib/providers/env.provider');
 test.before((t) => {
     // Set ENV variables
     process.env._test_mongoUri = 'mongo://localhost';
-    process.env._test_active = true;
-    process.env._test_number = 44;
+    process.env._test_active = 'true';
+    process.env._test_number = '44';
     process.env._test_mongoSecret = 'secret';
     process.env._test_APP_NAME = 'test_app';
+    process.env._test_empty = '';
 });
 
 test('should import env variables', async (t) => {
@@ -31,6 +32,18 @@ test('should import number as a number', async (t) => {
 
     t.deepEqual(config, {
         number: 44
+    });
+});
+
+test('should import empty string ', async (t) => {
+    let envConfig = muchEnv({
+        empty: '_test_empty'
+    });
+    await envConfig.init();
+    let config = await envConfig.load();
+
+    t.deepEqual(config, {
+        empty: ''
     });
 });
 

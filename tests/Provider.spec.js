@@ -20,6 +20,17 @@ test('should convert string to number if option enabled', (t) => {
 
     t.is(1, provider.parse('1'));
     t.is(1, provider.parse(1));
+    t.is(10.23, provider.parse('10.23'));
+});
+
+test('should not convert empty string or not numeric strings to numbers', (t) => {
+    const provider = new Provider({
+        castNumbers: true
+    });
+
+    t.is('10str', provider.parse('10str'));
+    t.is('', provider.parse(''));
+    t.is('str10.23', provider.parse('str10.23'));
 });
 
 test('should convert string to boolean if option enabled', (t) => {
